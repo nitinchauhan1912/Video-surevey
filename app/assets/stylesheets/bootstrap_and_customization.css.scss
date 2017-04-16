@@ -5,7 +5,7 @@
 $body-bg:                          #ffffff;
 $navbar-inverse-bg: 							 #5456F6;
 $navbar-inverse-link-color: 			 white;
-$font-family-sans-serif:           'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-sans-serif:           'Lato', 'Raleway', Helvetica, Arial, sans-serif;
 $navbar-height:                    45px;
 $navbar-default-bg:                white;
 $navbar-default-brand-color:       #5456F6;
@@ -27,4 +27,5 @@ $jumbotron-bg:                     #E5E9F2;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
+    border-color: #5456F6;
 }
