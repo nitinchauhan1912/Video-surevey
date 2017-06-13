@@ -1,21 +1,17 @@
 <%= form_for(@video) do |f| %>
-  <% if @video.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
-
-      <ul>
-      <% @video.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+   <h1>Add a New Video</h1>
 
   <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <br>
+    <%= f.text_field :video_link, placeholder: "https://", size: "50" %>
+    <span class="errors" style="color:red;"><%= @video.errors[:video_link].first %></span>
+
+    <br>
+    <p>Add a new video by entering the YouTube or Wistia url link</p>
+    <%#= f.label :video_link, "URL" %>
+    <%#= f.video_field :video_link %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Continue", class: "btn" %>
   </div>
 <% end %>

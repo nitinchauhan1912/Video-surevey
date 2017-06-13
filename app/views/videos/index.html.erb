@@ -1,27 +1,21 @@
-<p id="notice"><%= notice %></p>
+<div class="video_lists">
+  <h1>My Videos</h1>
 
-<h1>My Videos</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+  <div class="parent">
     <% @videos.each do |video| %>
-      <tr>
-        <td><%= video.title %></td>
-        <td><%= link_to 'Show', video %></td>
-        <td><%= link_to 'Edit', edit_video_path(video) %></td>
-        <td><%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <% video_id = video.video_link.split('?v=').last %>
+        <div class="child">
+            
+          <div style="height:200px;width:362px;">
+          <%= link_to image_tag("https://img.youtube.com/vi/#{video_id}/mqdefault.jpg") , video_path(slug: video.slug), target: '_blank' %>
+          <p style="font-size: 12px;text-align: left;margin-left: 20px;">0 Responses</p></div>
+         <div style="float:left;margin-left:20px;background-color: #444444;margin-top: 10px;"><%= link_to "View Responses",'' , class: 'btn'%></div>
+         <div style="float:left;margin-left:82px;background-color: #444444;margin-top: 10px;"><%= link_to "Download csv",'',  class: 'btn'%></div> 
+        </div>
+        
+      
     <% end %>
-  </tbody>
-</table>
-
+  </div>
 <br>
 
-<%= link_to 'New Video', new_video_path %>
+<%#= link_to 'New Video', new_video_path %>

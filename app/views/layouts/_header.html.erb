@@ -1,3 +1,4 @@
+<% unless request.url.split("/").include?("share") %>
 <nav class="navbar navbar-inverse navbar-default" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
@@ -16,15 +17,16 @@
 <!--      <li><%= link_to "Home", root_path %></li>  
       <li><%= link_to "Product", product_path %></li>  -->
       <li><%= link_to "About", about_path %></li> 
-        <% if user_signed_in? %>
-      <li><%= link_to "+ New Video", new_video_path %></li>
-      <li><%= link_to "My Videos", videos_path %></li>
-          <li><%= link_to "Account Settings", edit_user_registration_path %></li>
-          <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
-        <% else %>
+      <% if user_signed_in? %>
+        <li><%= link_to "+ New Video", new_video_path %></li>
+        <li><%= link_to "My Videos", videos_path %></li>
+        <li><%= link_to "Account Settings", edit_user_registration_path %></li>
+        <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
+      <% else %>
           <li><%= link_to "Sign in", new_user_session_path %></li>
-        <% end %>
+      <% end %>
     </ul>
   </div><!-- /.navbar-collapse -->
 </nav>
 
+<% end %>

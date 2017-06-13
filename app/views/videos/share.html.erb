@@ -1,0 +1,137 @@
+
+<div class="right_video">
+  <div class= "yt_video_title_div" style="float:left;margin-top: 0px;width: 690px;">
+    <h1 id ="yt_video_title" style="font-size:20px;font-weight: bold;"></h1>
+  </div>
+  
+
+  <div id="player"></div>
+
+    <div class="n_p_video_progressbar">
+      <div id="progressBar" style="width:1000px;">
+        <div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  function progress(percent, $element) {
+    var progressBarWidth = percent * $element.width() / 100;
+    $element.find('div').animate({ width: progressBarWidth });  
+  }
+
+  // 2. This code loads the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '500',
+      width: '1000',
+      popover: true,
+      videoId: '<%= @video_id %>',
+      enablejsapi: 1,
+      playerVars : { 'rel' : 0,  'showinfo' :0, 'autoplay': 1, 'controls': 0 },
+      
+      events: {
+        'onReady': onPlayerReady,
+
+        'onStateChange': onPlayerStateChange
+      }
+
+    });
+  }
+
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+  $('#yt_video_title').text(event.target.getVideoData().title);
+    
+    event.target.playVideo();
+    if (YT.PlayerState.PLAYING) { 
+      $('#progressBar').show();
+      var playerTotalTime = player.getDuration();
+
+      mytimer = setInterval(function() {
+      var playerCurrentTime = player.getCurrentTime();
+
+      var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
+
+
+      progress(playerTimeDifference, $('#progressBar'));
+      }, 1000);        
+    } else {
+  
+      clearTimeout(mytimer);
+      $('#progressBar').hide();
+    }
+  }
+
+  // 5. The API calls this function when the player's state changes.
+  //    The function indicates that when playing a video (state=1),
+  //    the player should play for six seconds and then stop.
+  var done = false;
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+      //setTimeout(stopVideo, 6000);
+      done = true;
+    }
+  }
+
+  function stopVideo() {
+    player.stopVideo();
+  }
+
+
+
+  function convert_time(seconds) {
+    var s = seconds,
+    h = Math.floor(s/3600);
+    s -= h*3600;
+    var m = Math.floor(s/60);
+    s -= m*60;
+
+    if(seconds >= "3600") {
+        return "0" + h + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    } else {
+        return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    }
+}
+
+
+  $('#progressBar').click(function(e){
+    //alert($moveable.css('left').split("px")[0]);
+    //var width = $moveable.css('left').split("px")[0] - 450
+    var $this = $(this);
+
+    // to get part of width of progress bar clicked
+    var widthclicked = e.pageX - $this.offset().left;
+    var totalWidth = $this.width(); // can also be cached somewhere in the app if it doesn't change
+
+    // do calculation of the seconds clicked
+    var calc = (widthclicked / totalWidth * player.getDuration()); // get the percent of bar clicked and multiply in by the duration
+    $('#progressBar').find('div').animate({ width: calc});
+    player.seekTo(calc);
+    //var calc_fix = calc.toFixed(0);
+    //ar time = convert_time(calc_fix);
+    
+   // alert(time + " - " + widthclicked);
+    
+    //alert(widthclicked)
+    //alert(time)
+    
+    
+
+  });
+
+
+ </script>
+
