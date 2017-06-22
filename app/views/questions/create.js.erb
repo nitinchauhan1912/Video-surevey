@@ -1,6 +1,11 @@
+<% if @error.size > 0 %>
+   $(".<%= @question.question_type %>open_error").attr("style","font-color:red"); 
+   $(".<%= @question.question_type %>_error").text("Can't be blank.");
+<% else %>
 $(".open_questions").hide();
 $('.open_questions').find('input:text').val('');
 $('.quiz_questions').find('input:text').val('');
 $(".open_questions").hide();
 $(".quiz_questions").hide();
 $('.right_video').show();
+<% end %>

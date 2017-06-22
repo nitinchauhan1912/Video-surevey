@@ -1,0 +1,12 @@
+<%  
+id = @question.id
+interaction = @question.interaction.interaction_at_offset
+interaction_at = @question.interaction.interaction_at
+%>
+$("#spot_question_<%= id %>_<%= interaction %>_<%= interaction_at %>").remove();
+$("#question_<%= @question.id %>").remove();
+$("#progressBar").addClass("progress-bar-interaction");
+$(".spot_question_action").toggle();
+$("#interaction_items").toggle();
+$('.right_video').show();
+playVideo();

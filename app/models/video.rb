@@ -4,11 +4,8 @@ class Video < ActiveRecord::Base
 
   validates :video_link, presence: true
   has_many :interactions
-  has_many :questions
+  has_many :questions, dependent: :destroy
   validate :valid_url
-
-
-
 
 
 	def to_slug

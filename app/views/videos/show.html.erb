@@ -1,375 +1,127 @@
 <div class= "left_share_link">
-
-	<% iframe = "<iframe src='#{request.url+"/embed"}' allowtransparency='true' frameborder='0' scrolling='no' width='640' height='390'></iframe>" %>
-
-	<%= label_tag "Share Link"%><br>
-	<%= text_field_tag "share_link", request.url+"/share", size:"40" %><br>
-	<%= label_tag "Embeded Code" %><br>
-	<%= text_area_tag "embeded_code" , iframe, size:"40x4"	 %><br>
-	<%= label_tag "Video Timeline Actions"%><br>
-	<%= text_area_tag "actions","" , size: "40x10"  %>
-
+<% iframe = "<iframe src='#{request.url+"/embed"}' allowtransparency='true' frameborder='0' scrolling='no' width='640' height='390'></iframe>" %>
+<%= label_tag "Share Link"%><br>
+<%= text_field_tag "share_link", request.url+"/share", size:"40" %>
+<div class="preview_link" style="margin-top:-32px;position:absolute;right:191px;">
+          <%= link_to "Preview" , video_share_link_path(slug: @video.slug), target: '_blank', class: 'btn btn-primary btn-small'%>
+      </div>
+<br>
+<%= label_tag "Embeded Code" %><br>
+<%= text_area_tag "embeded_code" , iframe, size:"40x4"	 %><br>
+<%= label_tag "Video Timeline Actions"%><br>
+<%= text_area_tag "actions","" , size: "40x10"  %>
 <br>
 <br>
-	<%= link_to 'Delete Video', @video, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Delete Video', video_path(@video), data: {:confirm => 'Are you sure?'}, :method => :delete %>
 </div>
+<div class="left_container">
+<div class= "yt_video_title_div"><h1 id="yt_video_title"></h1></div>  
 <div class="right_video">
-	<div class= "yt_video_title_div" style="float:left;margin-top: 0px;width: 690px;">
-	<h1 id ="yt_video_title" style="font-size:20px;font-weight: bold;"></h1>
-	</div>
-	<div class="preview_link" style="float:right;width:100px;text-align:right; ">
-		<%= link_to "Preview" , video_share_link_path(slug: @video.slug), target: '_blank', class: 'btn', style: "background-color: #444444;margin-top: 10px"%>
-	</div>
-
-
-	<div id="player"></div>
-
-  	<div class="n_p_video_progressbar">
-			<div id="progressBar">
-				<div>
-				</div>
-			</div>
-	</div>
-	<div class="moveAble">
-		<div class="move_cursor" style="border:1px solid #fff; position:absolute; top:-13%; height:13%; width:0.5%; left:50%;"></div>
-   	<table class="hover_actions">	
-   		<tr>
-   			<th colspan="2">Add Action</th>
-   		</tr>
-   		<tr>	
-   			<td style="width:50%">
-   				<%= link_to "Open Question",'#',  id: 'open_question'%>
-   			 </td>
-   			<td style="width:50%">
-   				<%= link_to "Quiz", '#', id: 'quiz_question'%>
-   			</td>
-   		</tr>
-   		<tr>
-   			<td style="width:50%">
-   				<%= link_to "Call to Action"%>
-   			 </td>
-   			<td style="width:50%">
-   				<%= link_to "Poll" , '#',  id: 'poll_question'%>
-   			</td>
-   		</tr>
-   		<tr>
-   			<td style="width:50%">
-   				<%= link_to "Collect Email",'#' , id: 'email_question' %>
-   			</td>
-   			<td style="width:50%">
-   				<%= link_to "Password Gate"%>
-   			</td>
-   		</tr>
-   	</table>
-   </div>
+  <div class="right_video_overlay" style="display:none"></div>
+     <div id="player"></div>
+      <div class="n_p_video_progressbar">
+        <div id="progressBar" class="progress-bar-interaction">
+          <div id="progessbarspot"></div>
+        </div>
+        <% @video.questions.each do |q|
+               if q.interaction
+                 interaction = q.interaction.interaction_at_offset
+                 interaction_at = q.interaction.interaction_at
+             %> 
+             <div class="spot_question video_overlay_on" id="spot_question_<%=q.id%>_<%= interaction_at %>_<%= interaction %>" style="left:<%= interaction %>px;"></div>
+             <% 
+               end 
+             end
+           %>
+        <div class="moveAble">
+          <div class="move_cursor"></div>
+          <div class="hover_actions" id="interaction_items">
+            <div class="hover-actions-header">
+              <span class="bold">Add Interaction</span>
+              <span id="time" interaction-offset="45"></span>
+            </div>
+            <div class="hover-actions-list-container">
+              <ul class="hover-actions-list">
+                <li>
+                  <span class="list-icon"><%= image_tag 'text.png' %></span>
+                  <%= link_to "Open Question",'javascript:void(0);',  id: 'open_question'%>
+                </li>
+                <li>
+                  <span class="list-icon"><%= image_tag 'question.png' %></span>
+                  <%= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question'%>
+                </li>
+                <li>
+                  <span class="list-icon"><%= image_tag 'cta.png' %></span>
+                  <%= link_to "Call to Action"%>
+                </li>
+                <li>
+                  <span class="list-icon poll"><%= image_tag 'poll.png' %></span>
+                  <%= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question'%>
+                </li>
+                <li>
+                  <span class="list-icon"><%= image_tag 'question.png' %></span>
+                  <%= link_to "Collect Email",'javascript:void(0);' , id: 'email_question' %>
+                </li>
+                <li>
+                  <span class="list-icon"><%= image_tag 'question.png' %></span>
+                  <%= link_to "Password Gate"%>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <!--- spot question container -->
+          <div class="spot_question_action" id="spot_interaction_items" style="display:none;">
+            <div class="hover_actions">
+              <div class="hover-actions-header">
+                <span class="bold">Quiz at</span>
+                <span id="question_spot_time" class="time" interaction-offset="45"></span>
+              </div>
+              <div class="hover-actions-list-container">
+                <ul class="hover-actions-list">
+                  <li>
+                    <span class="list-icon"><%= image_tag 'edit.png' %></span>
+                    <a href="javascript:void(0);" id="spot_edit_question" spot_question_id="0" >Edit</a>
+                  </li>
+                  <li>
+                    <span class="list-icon"><%= image_tag 'delete.png' %></span>
+                    <%= link_to("Delete", question_path(0), :id => 'spot_delete_question', :remote => true, :method => :delete, :confirm => "Are you sure?" )%>
+                  </li>
+                </ul>
+              </div>
+              <div class="hover-actions-footer">
+                <span><a href="javascript:void(0);" id="spot_cancel_question" class="video_overlay_off" spot_question_id="0">Cancel</a></span>
+              </div>
+            </div>
+          </div>
+          <!-- spot question container ends here -->
+          
+       </div>
+       <!-- moveAble ends here -->
+             
+      </div>     
 </div>  
-<div class="open_questions" style="display:none;">
-	<div id="video_title" style="border-bottom: 1px solid black">
-		<h1>Add a Question at </h1>
-	</div>
-	<div id="open_question_textfield" style="margin:30px;">
-		<p>Add a open ended question here</p>
-		<%= form_tag('/questions', remote: true, id: 'open_question_form') do %>
-		<%= hidden_field_tag 'video_id', @video.id %>
-		<%= hidden_field_tag 'question_type', "open_question" %>
-		<%= hidden_field_tag 'player_time' %>
-	 	<%= text_area_tag "question_title", "", size: "100x10", placeholder: "Question here"%>
-	</div>
-	<div id="submit_actions" style="float:right">
-		<%= link_to 'Cancel', '#' , class: 'btn remove_popup', style: "background-color: white;margin-right: 20px;border:1px solid black;" %>
-		 <%= submit_tag 'Save', class: 'btn save_interaction', style: "background-color: #444444;margin-right: 30px"%>
-	</div>
-	<% end %>
 </div>
-
-<div class="quiz_questions" style="display:none;">
-	<div id="video_title" style="border-bottom: 1px solid black">
-		<h1>Add a Question at </h1>
-	</div>
-	<div id="quiz_question_textfield" style="margin:30px;">
-		<%= form_tag('/questions', remote: true, id: 'open_question_form') do %>
-		<%= hidden_field_tag 'video_id', @video.id %>
-		<%= hidden_field_tag 'question_type', "quiz_question" %>
-	 	<%= text_area_tag "question_title", "", size: "100x3", placeholder: "Question here"%>
-	</div>
-	<div id="quiz_question_choices" style="margin:20px;">
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_1', "", size: "30" %>
-		</div>
-		<br/>
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_2', "", size: "30" %>
-		</div>
-		<br/>
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_3', "", size: "30" %>
-		</div>
-		<br/>
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_4' , "" , size: "30"%>
-		</div>
-
-	</div>
-	<div id="submit_actions" style="float:right">
-		<%= link_to 'Cancel', '#' , class: 'btn remove_popup', style: "background-color: white;margin-right: 20px;border:1px solid black;" %>
-		 <%= submit_tag 'Save', class: 'btn save_interaction', style: "background-color: #444444;margin-right: 30px"%>
-	</div>
-	<% end %>
-</div>
-
-<div class="poll_questions" style="display:none;">
-	<div id="video_title" style="border-bottom: 1px solid black">
-		<h1>Add a poll at </h1>
-	</div>
-	<div id="poll_question_textfield" style="margin:30px;">
-		<%= form_tag('/questions', remote: true, id: 'open_question_form') do %>
-		<%= hidden_field_tag 'video_id', @video.id %>
-		<%= hidden_field_tag 'question_type', "poll_question" %>
-	 	<%= text_area_tag "question_title", "", size: "100x3", placeholder: "Question poll here"%>
-	</div>
-	<div id="poll_question_choices" style="margin:20px;">
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_1', "", size: "30" %>
-		</div>
-		<br/>
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_2', "", size: "30" %>
-		</div>
-		<br/>
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_3', "", size: "30" %>
-		</div>
-		<br/>
-		<div class="radio_btns">
-		O <%= text_field_tag 'choice_4' , "" , size: "30"%>
-		</div>
-
-	</div>
-	<div id="submit_actions" style="float:right">
-		<%= link_to 'Cancel', '#' , class: 'btn remove_popup', style: "background-color: white;margin-right: 20px;border:1px solid black;" %>
-		 <%= submit_tag 'Save', class: 'btn save_interaction', style: "background-color: #444444;margin-right: 30px"%>
-	</div>
-	<% end %>
-</div>
-
-<div class="email_questions" style="display:none;">
-	<div id="video_title" style="border-bottom: 1px solid black">
-		<h1>Collect Emails at </h1>
-	</div>
-	<div id="email_question_textfield" style="margin:30px;">
-		<p>Text on the popup box to prompt user to enter name and email address</p>
-		<%= form_tag('/questions', remote: true, id: 'open_question_form') do %>
-		<%= hidden_field_tag 'video_id', @video.id %>
-		<%= hidden_field_tag 'question_type', "email" %>
-	 	<%= text_area_tag "question_title", "", size: "100x3" %>
-	</div>
-	<div id="email_button" style="margin:20px;">
-	<p>Button Label- if left blank, will read 'Continue'</p>
-		<%= text_field_tag "button_text", "", size: "100x2" %>
-	</div>
-	<div id="submit_actions" style="float:right">
-		<%= link_to 'Cancel', '#' , class: 'btn remove_popup', style: "background-color: white;margin-right: 20px;border:1px solid black;" %>
-		 <%= submit_tag 'Save', class: 'btn save_interaction', style: "background-color: #444444;margin-right: 30px"%>
-	</div>
-	<% end %>
-</div>
+<%= render 'questions' %>
 
 
-<% if @video_type == "youtube" %>
-
-
-<script type="text/javascript">
-
-	function progress(percent, $element) {
-		var progressBarWidth = percent * $element.width() / 100;
-		$element.find('div').animate({ width: progressBarWidth });	
-	}
-
-	// 2. This code loads the IFrame Player API code asynchronously.
-  var tag = document.createElement('script');
-
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-	// 3. This function creates an <iframe> (and YouTube player)
-  //    after the API code downloads.
-  var player;
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      height: '400',
-      width: '800',
-      popover: true,
-      videoId: '<%= @video_id %>',
-      enablejsapi: 1,
-      //playerVars : { 'rel' : 0,  'showinfo' :0, 'autoplay': 1, 'controls': 0 },
-      
-      events: {
-        'onReady': onPlayerReady,
-
-        'onStateChange': onPlayerStateChange
-      }
-
-    });
-  }
-
-  // 4. The API will call this function when the video player is ready.
-  function onPlayerReady(event) {
-  $('#yt_video_title').text(event.target.getVideoData().title);
-  	
-    event.target.playVideo();
-    if (YT.PlayerState.PLAYING) {	
-  		$('#progressBar').show();
-  		var playerTotalTime = player.getDuration();
-
-  		mytimer = setInterval(function() {
-    	var playerCurrentTime = player.getCurrentTime();
-
-    	var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
-
-
-    	progress(playerTimeDifference, $('#progressBar'));
-  		}, 1000);        
-		} else {
-  
-  		clearTimeout(mytimer);
-  		$('#progressBar').hide();
-		}
- 	}
-
-  // 5. The API calls this function when the player's state changes.
-  //    The function indicates that when playing a video (state=1),
-  //    the player should play for six seconds and then stop.
-  var done = false;
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-      //setTimeout(stopVideo, 6000);
-      done = true;
-    }
-  }
-
-  function stopVideo() {
-    player.stopVideo();
-  }
-
+<% content_for :javascript_bottom do %> 
+  <% if @video_type == "youtube" %>  
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <%= javascript_include_tag 'video' %>
+  <% else %>
+      <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>
+      <div class="wistia_embed wistia_async_abcde12345" style="width:640px;height:360px;"></div>
+      <script type="text/javascript">
+            window._wq = window._wq || [];
+            _wq.push({ id: "<%= @video_id %>", onReady: function(video) {
+            console.log("I got a handle to the video!", video);
+            }});
+      </script>
+  <% end %>
+ <script type="text/javascript">
+  var videoID = '<%= @video_id %>';
+  $("#time").html(formatTime(5));
  </script>
-
-<% else %>
-	
-	<script src="//fast.wistia.com/assets/external/E-v1.js" async></script>
-	<div class="wistia_embed wistia_async_abcde12345" style="width:640px;height:360px;"></div>
-	<script>
-	window._wq = window._wq || [];
-	_wq.push({ id: "<%= @video_id %>", onReady: function(video) {
-  	console.log("I got a handle to the video!", video);
-	}});
-</script>
-
-
+ <%= javascript_include_tag 'question' %>
 <% end %>
-
-<script>
-  // slide action box
-  var $moveable = $('.moveAble');
-  $('#progressBar').mousemove(function(e){
-      $moveable.css({'left': e.pageX});
-  });
-
-
-  $('#open_question').click(function(e){
-  	//$cursor = $('#move_cursor')
-  	//var widthclicked = e.pageX - $cursor.offset().left;
-	   // alert(widthclicked);
-	  if($('.right_video').is(":visible")) {
-			$('.right_video').hide();
-
-	    $('.open_questions').show();
-	    //$('#player_time').val(player.getCurrentTime());
-	    
-	  } else {
-	  	$('.right_video').show();
-	    $('.open_questions').hide();
-	  }
-	});
-
-	$('#quiz_question').click(function(){
-	  if($('.right_video').is(":visible")) {
-			$('.right_video').hide();
-	    $('.quiz_questions').show();
-	  } else {
-	  	$('.right_video').show();
-	    $('.quiz_questions').hide();
-	  }
-	});
-
-$('#poll_question').click(function(){
-	  if($('.right_video').is(":visible")) {
-			$('.right_video').hide();
-	    $('.poll_questions').show();
-	  } else {
-	  	$('.right_video').show();
-	    $('.poll_questions').hide();
-	  }
-	});
-
-$('#email_question').click(function(){
-	  if($('.right_video').is(":visible")) {
-			$('.right_video').hide();
-	    $('.email_questions').show();
-	  } else {
-	  	$('.right_video').show();
-	    $('.email_questions').hide();
-	  }
-	});
-
-
-
-	$('.remove_popup').click(function(){
-		$('.right_video').show();
-		$('.open_questions').hide();
-		$('.email_questions').hide();
-		$('.poll_questions').hide();
-		$('.quiz_questions').hide();
-	});
-
-	function convert_time(seconds) {
-    var s = seconds,
-    h = Math.floor(s/3600);
-    s -= h*3600;
-    var m = Math.floor(s/60);
-    s -= m*60;
-
-    if(seconds >= "3600") {
-        return "0" + h + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-    } else {
-        return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-    }
-}
-
-
-	$('#progressBar').click(function(e){
-		//alert($moveable.css('left').split("px")[0]);
-		//var width = $moveable.css('left').split("px")[0] - 450
-		var $this = $(this);
-
-    // to get part of width of progress bar clicked
-    var widthclicked = e.pageX - $this.offset().left;
-    var totalWidth = $this.width(); // can also be cached somewhere in the app if it doesn't change
-
-    // do calculation of the seconds clicked
-    var calc = (widthclicked / totalWidth * player.getDuration()); // get the percent of bar clicked and multiply in by the duration
-    $('#progressBar').find('div').animate({ width: calc});
-   	player.seekTo(calc);
-    //var calc_fix = calc.toFixed(0);
-    //ar time = convert_time(calc_fix);
-    
-   // alert(time + " - " + widthclicked);
-		
-		//alert(widthclicked)
-		//alert(time)
-		
-		
-
-	});
-
-</script>

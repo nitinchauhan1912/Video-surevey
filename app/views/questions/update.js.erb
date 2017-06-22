@@ -1,0 +1,13 @@
+<% if @error.size > 0 %>
+   $(".<%= @question.question_type %>open_error").attr("style","font-color:red"); 
+   $(".<%= @question.question_type %>_error").text("Can't be blank.");
+<% else %>
+$(".right_video_overlay").hide();
+$("#progressBar").addClass("progress-bar-interaction");
+$(".spot_question").removeClass("active");
+$(".spot_question_action").toggle();
+$("#interaction_items").toggle();
+$('.right_video').show();
+$("#question_<%= @question.id %>").hide();
+playVideo();
+<% end  %>
