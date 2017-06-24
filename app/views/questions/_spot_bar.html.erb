@@ -1,0 +1,16 @@
+<% @video.questions.each do |q|
+  if q.interaction
+    interaction = q.interaction.interaction_at_offset
+    interaction_at = q.interaction.interaction_at
+    spot_quest_position = get_div_left_position(q)
+ %> 
+<% if page == 'show' %>
+ <div class="spot_question video_overlay_on" id="spot_question_<%=q.id%>_<%= interaction_at %>_<%= interaction %>" style="left:<%= spot_quest_position.to_s+"%;" %>;"></div>
+<% elsif page == 'share' || page == 'embed' %> 
+ <div class="interaction_question_at spot_bar_<%= q.id %>" style="left:<%= spot_quest_position.to_s+"%;" %>"></div>
+ <div interaction_at="<%= interaction_at %>_<%= q.id %>" class="share_spot_question spot_question video_overlay_on" id="spot_question_<%=q.id%>_<%= interaction_at %>_<%= interaction %>" style="left:<%= spot_quest_position.to_s+"%" %>;"></div>
+<% end %> 
+<% 
+   end 
+ end
+%>

@@ -2,8 +2,8 @@ var playerTotalTime;
 var time_update_interval;
 var done = false;
 var player;
-var area = {width:800,height:400};
-var playerOption = {rel: 0, showinfo: 1, autoplay: 1, controls: 1, start: 0};
+var area = {width:798,height:450};
+var playerOption = {rel: 0, showinfo: 0, autoplay: 1, controls: 0, start: 0};
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         width: area.width,
@@ -48,6 +48,22 @@ function updateProgressBar() {
     //$('#progress-bar').val(seek_bar_postion);
     var progressBarWidth = seek_bar_postion * $('#progressBar').width() / 100;
     $('#progessbarspot').animate({width: progressBarWidth});
+    /******logic to open question while prgressing bar********/
+    if($(".share_spot_question").length!==0){
+        $('.share_spot_question').each(function() {
+            var value = $(this).attr('interaction_at').split('_');
+            var playerCurrTime = parseInt(player.getCurrentTime());
+            var shareSpotQuestTime = parseInt(value[0]);
+            if(playerCurrTime == shareSpotQuestTime && $("#question_"+value[1]).length!==0){
+                $(".right_video_overlay").show();
+                $(this).addClass("active");
+                $(".spot_bar_"+value[1]).show();
+                $("#question_"+value[1]).show();
+                    pauseVideo();
+            }    
+        });
+    }
+    /******end logic to open question while prgressing bar********/
     
     
 }
@@ -118,11 +134,12 @@ $('.progress-bar-interaction').mousemove(function(e) {
 });
 
 $(".video_overlay_on").click(function(){
+    //$(".right_video_overlay").attr('style','width:'+area.width+';height:'+area.height);
     $(".right_video_overlay").show();
 });
 $(".video_overlay_off").click(function(){
     $(".right_video_overlay").hide();
-})
+});
 
 
 

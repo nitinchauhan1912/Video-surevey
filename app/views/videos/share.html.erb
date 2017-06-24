@@ -1,26 +1,27 @@
-<div class="right_video" style="width:1000px;text-align: center;margin:50px;">
-  <div class= "yt_video_title_div"><h1 id="yt_video_title"></h1></div>
-      <div id="player"></div>
+<%
 
+width = '980px';
+height = '550px';
+ywidth = '978px';
+%>
+<div class="right_video" style="width:<%= width %>;text-align: center;margin:50px;">
+  <div class="right_video_overlay" style="display:none;width:<%= width %>;height: <%= height %>;top:75px;"></div>
+        
+  <div class= "yt_video_title_div"><h1 id="yt_video_title"></h1></div>
+      <% if @video_type == "youtube"%>
+          <div id="player"></div>
+      <% else %>
+        <div class="wistia_embed wistia_async_<%= @video_id %>" style="width:<%= width %>;height: <%= height %>"></div>
+      <% end %>
       <div class="n_p_video_progressbar">
-        <div id="progressBar" class="progress-bar-interaction" style="width:1000px;">
+        <div id="progressBar" class="progress-bar-interaction" style="width:<%= width %>;">
           <div id="progessbarspot"></div>
         </div>
-        <% @video.questions.each do |q|
-               if q.interaction
-                 interaction = q.interaction.interaction_at_offset
-                 interaction_at = q.interaction.interaction_at
-                 bar_origanal_width_during_interaction = 800
-                 spot_quest_position = ((interaction.to_f/bar_origanal_width_during_interaction) * 100).round
-             %> 
-             <div class="spot_question" id="spot_question_<%=q.id%>_<%= interaction_at %>_<%= interaction %>" style="left:<%= spot_quest_position.to_s+"%" %>;"></div>
-             <% 
-               end 
-             end
-           %>
+        <%= render 'questions/spot_bar', page: 'share' %>
+        <%= render 'questions/share_questions' %>  
       </div>     
 </div>  
-<%= render 'share_questions' %>
+<%#= render 'share_questions' %>
   
 
 <% content_for :javascript_bottom do %> 
@@ -29,19 +30,22 @@
     <%= javascript_include_tag 'video' %>
   <% else %>
       <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>
-      <div class="wistia_embed wistia_async_abcde12345" style="width:640px;height:360px;"></div>
       <script type="text/javascript">
             window._wq = window._wq || [];
             _wq.push({ id: "<%= @video_id %>", onReady: function(video) {
-            console.log("I got a handle to the video!", video);
+
+              video.bind('play', function() {
+               // $('#progressBar').show();
+              video.time(10);
+              //return video.unbind;
             }});
       </script>
   <% end %>
  <script type="text/javascript">
   var videoID = '<%= @video_id  %>';
   $("#time").html(formatTime(5));
-  area.width = 1000;
-  area.height = 600;
+  area.width = '<%= ywidth %>';
+  area.height = '<%= height %>';
   playerOption.showinfo = 0;
   playerOption.autoplay = 1;
   playerOption.controls = 0;

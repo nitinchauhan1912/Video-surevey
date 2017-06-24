@@ -1,8 +1,12 @@
 class Question < ActiveRecord::Base
 	belongs_to :video
 	has_one :interaction, dependent: :destroy
-  after_create :assign_interaction
+  has_one :answer, dependent: :destroy
+   
   validates :question_label, presence: true
+  
+  after_create :assign_interaction
+  
   QUESTION_TYPE = ["quiz","poll","open","email"]
   
 	def assign_interaction

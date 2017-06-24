@@ -1,0 +1,21 @@
+<div class="hover_actions">
+  <div class="hover-actions-header">
+    <span class="bold">Quiz at</span>
+    <span id="question_spot_time" class="time" interaction-offset="45"></span>
+  </div>
+  <div class="hover-actions-list-container">
+    <ul class="hover-actions-list">
+      <li>
+        <span class="list-icon"><%= image_tag 'edit.png' %></span>
+        <a href="javascript:void(0);" id="spot_edit_question" spot_question_id="0" >Edit</a>
+      </li>
+      <li>
+        <span class="list-icon"><%= image_tag 'delete.png' %></span>
+        <%= link_to("Delete", question_path(0), :id => 'spot_delete_question', :remote => true, :method => :delete, :confirm => "Are you sure?", :class=>"video_overlay_off" )%>
+      </li>
+    </ul>
+  </div>
+  <div class="hover-actions-footer">
+    <span><a href="javascript:void(0);" id="spot_cancel_question" class="video_overlay_off" spot_question_id="0">Cancel</a></span>
+  </div>
+</div>

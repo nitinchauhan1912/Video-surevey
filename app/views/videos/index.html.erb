@@ -1,9 +1,5 @@
 <div class="video_lists">
   <h1>My Videos</h1>
-  <% flash.each do |key, value| %>
-     <div class="alert alert-<%= key %>"><strong><%= value %></strong></div>   
-  <% end %>
-     
   <div class="parent">
     <% @videos.each do |video| %>
       <% video_id = video.video_link.split('?v=').last %>
@@ -19,5 +15,4 @@
     <% end %>
   </div>
 <br>
-
 <%#= link_to 'New Video', new_video_path %>

@@ -19,7 +19,7 @@
 
 .right_video_overlay {
     width: 50.6%;
-    height: 431px;
+    height: 480px;
     margin: auto;
     float:left;
     margin-top: 68px;
@@ -27,7 +27,6 @@
     position: absolute;
     z-index: 9999;
     top: 124px;
-    
 }
 .left_container {
     width:70%;
@@ -36,13 +35,7 @@
     margin-top: 68px;
 }
 
-.right_video{
-	width:70%;
-	margin: auto;
-	float:left;
-        margin-top: 10px;
 
-}
 .open_questions, .quiz_questions, .email_questions, .poll_questions, .question{
 	width:70%;
 	margin: auto;
@@ -58,13 +51,17 @@
 }
 
 .share_question {
-    width:30%;
+    min-width:50%;
     position:absolute;
-    top:550px;
-    left:352px;
     background-color:white;
     border: 1px solid lightgray;
     border-radius: 6px;
+    color: #333;
+    height: 200px;
+    border: 2px solid red;
+    top:-220px;
+    margin-left:-250px;
+    text-align:left;
 }
 
 .video_lists {
@@ -87,18 +84,17 @@
 }
 
 #progressBar {
-width: 800px;
-height: 25px;
-background-color: #786464;
-display: none;
-margin-top: 1px;
-//cursor: pointer;
+height: 30px;
+background-color: #ccc;
+//display: none;
+margin-top: 5px;
+cursor: pointer;
 }
 
 #progressBar div {
 height: 100%;
 width: 0;
-background-color: #f38383;
+background-color: #55a2f4;
 }
 
 
@@ -191,10 +187,10 @@ background-color: #f38383;
 .move_cursor {
 	position:absolute; 
         border:none;
-        background-color: white;
-        height:25px; 
+        background-color: #3234f4;
+        height:30px; 
         width:2px;
-        top:-25px;
+        top:-30px;
         left: 90px;
         cursor: pointer;
 
@@ -210,32 +206,34 @@ background-color: #f38383;
 }
 */
 .spot_question {
-    background: #ff9c8f none repeat scroll 0 0;
+    background: #3234f4 none repeat scroll 0 0;
     border: none; 
-    height: 25px; 
+    height: 30px; 
     position: absolute; top: 0px; 
     width: 4px;
+    cursor: pointer;
 }
 
 .spot_question::before {
     background: rgba(0, 0, 0, 0) linear-gradient(#fff 40%, #e8e8e8) repeat scroll 0 0;
-    border: 2px solid #ff9c8f;
+    border: 2px solid #3234f4;
     border-radius: 50%;
     content: " ";
     display: block;
     height: 12px;
     margin-left: -4px;
-    margin-top: 7px;
+    margin-top: 9px;
     width: 12px;
+    cursor: pointer;
 }
 
 .spot_question.active::before {
-    background: #b74c3d none repeat scroll 0 0;
-    border-color: #b74c3d;
+    background: #3234f4 none repeat scroll 0 0;
+    border-color: #3234f4;
 }
 
 .spot_question.active {
-    background: #b74c3d none repeat scroll 0 0;
+    background: #3234f4 none repeat scroll 0 0;
 }
 .error{
     color:red;
@@ -255,6 +253,7 @@ background-color: #f38383;
     border: none;
     color: #fff;
 }
+
 .question-style #video_title {
     margin-left: 20px;
 }
@@ -292,6 +291,61 @@ background-color: #f38383;
 .email_questions .question_form_container{
     height: 300px;
 }
+/*************** share question **************/
+.share-question-style #video_title {
+    margin: 10px 20px;
+    color: #333;
+    font-weight: bold;
+}
+.share-question-style {
+    background-color: #55a2f4;
+    border: none;
+    color: #fff;
+    z-index: 10000;
+}
+
+.share-question-style .share_question_form_container {
+    color: #333;
+    min-width: 95%;
+    margin: -10px 6px;
+}
+
+.share-question-style .share_question_form_container #submit_actions{
+    float: right;
+}
+
+.share_question_form_container textarea {
+    width: 96%;
+    height: 112px;
+    margin: 10px 14px 5px 14px;
+}
+
+.share_quiz_question_choices {
+    background-color: #fff;
+    border: 1px
+}
+.share_question_form_container .share_quiz_question_choices {
+    margin: 24px 16px;
+    height: 105px;
+}
+.share_question_form_container .share_quiz_question_choices ul, .share_question_form_container .share_quiz_question_choices li {
+    margin:0px;
+    padding: 0px;
+    list-style:none
+}
+.share_question_form_container .share_quiz_question_choices input[type=radio] {
+    margin: 7px 5px;
+}
+.share_question_form_container .share_quiz_question_choices span {
+    margin-right: 10px;
+}
+
+.share_question_form_container input[type=text]{
+    height: 40px;
+    width: 94%;
+    margin: 15px 15px 10px
+}
+
 
 .radio-sprite {
     background-image: url('/assets/radio_sprite.png');
@@ -310,4 +364,21 @@ background-color: #f38383;
     float: right;
     margin: 10px;
 }
+
+.interaction_question_at{
+    background-color:#3234f4;
+    width:4px;
+    height:20px;
+    position:absolute;
+    top:-20px;
+    display: none;
+}
 /* --- question overlay --- */
+#video_time_line{
+    border:1px solid #ccc;
+    max-height:250px;
+    width:97%;
+    overflow-y: scroll;
+}
+#video_time_line ul{margin:8px 15px;padding:0px;}
+#video_time_line li{margin:5px;padding:0px;}

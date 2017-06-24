@@ -14,7 +14,6 @@
 //= require jquery_ujs
 // require bootstrap-sprockets
 // require turbolinks
-//= require_tree .
 function formatTime(time) {
     time = Math.round(time);
     var hours = Math.floor(time / 3600);
@@ -32,4 +31,8 @@ function convert_time(seconds) {
     if(secs > 86399)
         time = Math.floor((t - Date.parse("1/1/70")) / 3600000) + s.substr(2);
     return time;
+}
+
+function inseconds(){
+    
 }

@@ -2,97 +2,46 @@
 <% iframe = "<iframe src='#{request.url+"/embed"}' allowtransparency='true' frameborder='0' scrolling='no' width='640' height='390'></iframe>" %>
 <%= label_tag "Share Link"%><br>
 <%= text_field_tag "share_link", request.url+"/share", size:"40" %>
-<div class="preview_link" style="margin-top:-32px;position:absolute;right:191px;">
-          <%= link_to "Preview" , video_share_link_path(slug: @video.slug), target: '_blank', class: 'btn btn-primary btn-small'%>
-      </div>
 <br>
 <%= label_tag "Embeded Code" %><br>
 <%= text_area_tag "embeded_code" , iframe, size:"40x4"	 %><br>
 <%= label_tag "Video Timeline Actions"%><br>
-<%= text_area_tag "actions","" , size: "40x10"  %>
-<br>
+<div id="video_time_line">
+    <%= render 'video_time_line' %>
+</div>
 <br>
 <%= link_to 'Delete Video', video_path(@video), data: {:confirm => 'Are you sure?'}, :method => :delete %>
 </div>
 <div class="left_container">
-<div class= "yt_video_title_div"><h1 id="yt_video_title"></h1></div>  
+  <div class= "yt_video_title_div" style="width:760px;">
+  <h1 id="yt_video_title"></h1>
+  <div class="preview_link" style="float:right;margin:-53px 40px;width:0px;">
+      <%= link_to "Preview" , video_share_link_path(slug: @video.slug), target: '_blank', class: 'btn btn-primary btn-small'%>
+  </div>
+</div>  
 <div class="right_video">
-  <div class="right_video_overlay" style="display:none"></div>
-     <div id="player"></div>
+  <div class="right_video_overlay" style="display:none;"></div>
+      <% if @video_type == "youtube"%>
+          <div id="player"></div>
+      <% else %>
+        <div class="wistia_embed wistia_async_<%= @video_id %>" style="width:798px;height:400px"></div>
+      <% end %>
       <div class="n_p_video_progressbar">
         <div id="progressBar" class="progress-bar-interaction">
           <div id="progessbarspot"></div>
         </div>
-        <% @video.questions.each do |q|
-               if q.interaction
-                 interaction = q.interaction.interaction_at_offset
-                 interaction_at = q.interaction.interaction_at
-             %> 
-             <div class="spot_question video_overlay_on" id="spot_question_<%=q.id%>_<%= interaction_at %>_<%= interaction %>" style="left:<%= interaction %>px;"></div>
-             <% 
-               end 
-             end
-           %>
+        <div id="spot_questtion_bar">
+          <%= render 'questions/spot_bar', page: 'show' %>
+        </div>     
         <div class="moveAble">
           <div class="move_cursor"></div>
           <div class="hover_actions" id="interaction_items">
-            <div class="hover-actions-header">
-              <span class="bold">Add Interaction</span>
-              <span id="time" interaction-offset="45"></span>
-            </div>
-            <div class="hover-actions-list-container">
-              <ul class="hover-actions-list">
-                <li>
-                  <span class="list-icon"><%= image_tag 'text.png' %></span>
-                  <%= link_to "Open Question",'javascript:void(0);',  id: 'open_question'%>
-                </li>
-                <li>
-                  <span class="list-icon"><%= image_tag 'question.png' %></span>
-                  <%= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question'%>
-                </li>
-                <li>
-                  <span class="list-icon"><%= image_tag 'cta.png' %></span>
-                  <%= link_to "Call to Action"%>
-                </li>
-                <li>
-                  <span class="list-icon poll"><%= image_tag 'poll.png' %></span>
-                  <%= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question'%>
-                </li>
-                <li>
-                  <span class="list-icon"><%= image_tag 'question.png' %></span>
-                  <%= link_to "Collect Email",'javascript:void(0);' , id: 'email_question' %>
-                </li>
-                <li>
-                  <span class="list-icon"><%= image_tag 'question.png' %></span>
-                  <%= link_to "Password Gate"%>
-                </li>
-              </ul>
-            </div>
+            <%= render 'questions/interaction_questions_list'%>
           </div>
           
           <!--- spot question container -->
           <div class="spot_question_action" id="spot_interaction_items" style="display:none;">
-            <div class="hover_actions">
-              <div class="hover-actions-header">
-                <span class="bold">Quiz at</span>
-                <span id="question_spot_time" class="time" interaction-offset="45"></span>
-              </div>
-              <div class="hover-actions-list-container">
-                <ul class="hover-actions-list">
-                  <li>
-                    <span class="list-icon"><%= image_tag 'edit.png' %></span>
-                    <a href="javascript:void(0);" id="spot_edit_question" spot_question_id="0" >Edit</a>
-                  </li>
-                  <li>
-                    <span class="list-icon"><%= image_tag 'delete.png' %></span>
-                    <%= link_to("Delete", question_path(0), :id => 'spot_delete_question', :remote => true, :method => :delete, :confirm => "Are you sure?" )%>
-                  </li>
-                </ul>
-              </div>
-              <div class="hover-actions-footer">
-                <span><a href="javascript:void(0);" id="spot_cancel_question" class="video_overlay_off" spot_question_id="0">Cancel</a></span>
-              </div>
-            </div>
+            <%= render 'questions/question_action_list' %>
           </div>
           <!-- spot question container ends here -->
           
@@ -102,7 +51,7 @@
       </div>     
 </div>  
 </div>
-<%= render 'questions' %>
+<%= render 'questions/questions' %>
 
 
 <% content_for :javascript_bottom do %> 
@@ -111,11 +60,14 @@
     <%= javascript_include_tag 'video' %>
   <% else %>
       <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>
-      <div class="wistia_embed wistia_async_abcde12345" style="width:640px;height:360px;"></div>
       <script type="text/javascript">
             window._wq = window._wq || [];
             _wq.push({ id: "<%= @video_id %>", onReady: function(video) {
-            console.log("I got a handle to the video!", video);
+
+              video.bind('play', function() {
+               // $('#progressBar').show();
+              video.time(10);
+              //return video.unbind;
             }});
       </script>
   <% end %>

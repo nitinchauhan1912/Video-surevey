@@ -2,10 +2,42 @@
    $(".<%= @question.question_type %>open_error").attr("style","font-color:red"); 
    $(".<%= @question.question_type %>_error").text("Can't be blank.");
 <% else %>
+$('#spot_questtion_bar').html("<%= j render(:partial => 'questions/spot_bar', :locals => {:page => "show"}) %>");
+$('#edit_questions').html("<%= j render(:partial => 'questions/edit_questions') %>");
+$('#video_time_line').html("<%= j render(:partial => 'videos/video_time_line') %>");
 $(".open_questions").hide();
 $('.open_questions').find('input:text').val('');
 $('.quiz_questions').find('input:text').val('');
-$(".open_questions").hide();
+$(".poll_questions").hide();
 $(".quiz_questions").hide();
+$(".email_questions").hide();
 $('.right_video').show();
 <% end %>
+$('.spot_question').on('click', function(e){
+    e.preventDefault();
+    $("#progressBar").removeClass("progress-bar-interaction");
+    var id_attr = $(this).attr('id').split('_');
+    var id = id_attr[2];
+    $(this).addClass("active");
+    $(".spot_question_action").find('a').each(function(){$(this).attr("spot_question_id",id)});
+    $(".spot_question_action").find('#spot_delete_question').attr("href","/questions/"+id);
+    $("#question_spot_time").text(formatTime(id_attr[3]));
+    $(".added_at").text(formatTime(id_attr[3]));
+    $("#question_spot_time").attr("interaction-offset",id_attr[4]);
+    $("#interaction_items").hide();
+    $("#spot_interaction_items").show();
+    spotProgressBar(id_attr[3]);
+    
+  });
+  $(".remove_edit_popup").click(function(){
+     var role = $(this).attr("role");
+     $("#"+role).hide();    
+     $('.right_video').show();
+  });
+  $(".video_overlay_on").click(function(){
+    //$(".right_video_overlay").attr('style','width:'+area.width+';height:'+area.height);
+    $(".right_video_overlay").show();
+ });
+ $(".video_overlay_off").click(function(){
+      $(".right_video_overlay").hide();
+});

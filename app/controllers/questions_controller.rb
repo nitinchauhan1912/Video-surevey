@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :set_video, only: [:create]
-
+  before_action :check_authentication
 
   def create
     if !current_user && !Question::QUESTION_TYPE.include?(params[:question_type])
@@ -30,14 +30,11 @@ class QuestionsController < ApplicationController
     @error = {}
     if @question.valid? && @question.save
       @question.interaction.create_interaction(time_in_sec,interaction_offset)
-      respond_to do |format|
-        format.js
-      end
     else
       @error = @question.errors.messages if !@question.valid?
-      respond_to do |format|
-        format.js
-      end
+    end
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -71,8 +68,6 @@ class QuestionsController < ApplicationController
   def destroy
     @question = Question.where(:id=>params[:id]).first
     @question.destroy
-    Rails.logger.info "******************#{@question.inspect}"
-    Rails.logger.info "******************#{@question.interaction.inspect}"
     respond_to do |format|
       format.js
     end
@@ -88,4 +83,10 @@ class QuestionsController < ApplicationController
     params.require(:video).permit(:video_link)
   end
 
+  def check_authentication
+    if !current_user
+      flash[:warning] = "Your are not authorize to view any content until you sign in."
+      redirect_to '/'
+    end  
+  end  
 end

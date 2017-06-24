@@ -1,0 +1,78 @@
+<% @video.questions.each do |question| %>
+  <% if question.question_type == 'open' 
+     spot_quest_position = get_div_left_position(question)
+  %>
+      <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
+      <div id="video_title"><p><%= question.question_label %></p></div>
+        <div class="share_question_form_container"> 
+        <%= form_tag question_answers_path(question), :method => :post , :remote => true do |f| %>
+        <div id="open_question_textfield">
+            <%= text_area_tag "share_question_answer" %>
+        </div>
+        <div id="submit_actions">
+            <%= link_to 'Skip', 'javascript:void(0);' , class: 'btn remove_popup btn-default video_overlay_off', role: "#{question.id}" %>
+            <%= submit_tag 'Continue', class: 'btn save_interaction btn-primary btn-small'%>
+          </div>
+        <% end %>
+        </div>  
+      </div>
+  <% end %>
+  
+  <% if question.question_type == 'quiz' || question.question_type == 'poll' 
+      spot_quest_position = get_div_left_position(question)
+  %>
+      <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
+        <div id="video_title"><p><%= question.question_label %></p></div>
+        <div class="share_question_form_container">
+	<%= form_tag question_answers_path(question), :method => :post , :remote => true do |f| %>
+	<div id="share_quiz_question_choices" class="share_quiz_question_choices">
+          <ul>
+            <% if question.choice_1.present? %>
+              <li><%= radio_button_tag 'share_question_answer', question.choice_1 %><%= question.choice_1 %></li> 
+            <% end %>
+            <% if question.choice_2.present? %>
+              <li><%= radio_button_tag 'share_question_answer', question.choice_2 %><%= question.choice_2 %></li> 
+            <% end %>
+            <% if question.choice_3.present? %>  
+              <li><%= radio_button_tag 'share_question_answer', question.choice_3 %><%= question.choice_3 %></li> 
+            <% end %>  
+            <% if question.choice_4.present? %>  
+              <li><%= radio_button_tag 'share_question_answer', question.choice_4 %><%= question.choice_4 %></li>
+            <% end %>  
+          </ul>	
+	</div>
+	<div id="submit_actions" style="margin-top:-12px">
+          <%= link_to 'Skip', 'javascript:void(0);' , class: 'btn remove_popup btn-default video_overlay_off', role: "#{question.id}" %>
+          <%= submit_tag 'Continue', class: 'btn save_interaction btn-primary btn-small video_overlay_off'%>
+        </div>
+	<% end %>
+        </div>   
+    </div>
+
+  <% end %>
+
+   
+ <% if question.question_type == 'email' 
+      spot_quest_position = get_div_left_position(question)
+ %>
+   <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
+      <div id="video_title"><p><%= question.question_label %></p></div>
+        <div class="share_question_form_container">       
+        <%= form_tag question_answers_path(question), :method => :post , :remote => true do |f| %>
+	<div>
+            <%= text_field_tag "share_question_answer_name","",placeholder: "Enter your name"%>
+        </div>
+        <div>
+            <%= text_field_tag "share_question_answer_email","",placeholder: "Enter your email" %>
+        </div>
+	<div id="submit_actions" style="float:right">
+              <%= link_to 'Skip', 'javascript:void(0);' , class: 'btn remove_popup btn-default video_overlay_off', role: "#{question.id}" %>
+              <% btn_name = (question.button_text.present?) ? question.button_text  : 'Continue' %>
+              <%= submit_tag "#{btn_name}", class: 'btn save_interaction btn-primary btn-small'%>
+	</div>
+	<% end %>
+        </div>  
+    </div>
+ <% end %>
+
+<%  end %>

@@ -1,4 +1,5 @@
-$('#open_question').click(function(e){
+jQuery(document).ready(function($) {
+    $('#open_question').click(function(e){
       if($('.right_video').is(":visible")) {
           $('.right_video').hide();
           $('#open_interaction_at').val($('#time').text());
@@ -61,8 +62,8 @@ $('#open_question').click(function(e){
          $('.quiz_questions').hide();
   });
   
-  $('.spot_question').click(function(){
-    
+  $('.spot_question').on('click', function(e){
+    e.preventDefault();
     $("#progressBar").removeClass("progress-bar-interaction");
     var id_attr = $(this).attr('id').split('_');
     var id = id_attr[2];
@@ -102,3 +103,5 @@ $('#open_question').click(function(e){
      $("#"+role).hide();    
      $('.right_video').show();
   });
+  
+});  

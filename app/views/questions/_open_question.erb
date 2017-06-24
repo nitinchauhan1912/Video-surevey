@@ -1,0 +1,21 @@
+<div class="open_questions question-style" style="display:none;">
+  <div id="video_title"><h3>Add a Question at - <span class="added_at"></span></h3></div>
+   <div class="question_form_container">  
+  <%= form_tag('/questions', remote: true, id: 'open_question_form') do %>
+  <div id="open_question_textfield">
+    <p>Ask an open-ended question — viewers can respond with anything they'd like.</p>
+    <%= hidden_field_tag 'video_id', @video.id %>
+    <%= hidden_field_tag :interaction_at, 0, {:id => 'open_interaction_at'}%>
+    <%= hidden_field_tag :interaction_at_offset, 0, {:id => 'open_interaction_at_offset'}%>
+    <%= hidden_field_tag 'question_type', "open" %>
+    <%= hidden_field_tag 'player_time' %>
+    <%= text_area_tag "question_title", "", placeholder: "Question here", style: "height:256px;"%>
+    <span class="open_error error"></span>
+  </div>
+  <div id="submit_actions">
+      <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_popup btn-default' %>
+      <%= submit_tag 'Save', class: 'btn save_interaction btn-primary btn-small'%>
+  </div>
+  <% end %>
+  </div>   
+</div>

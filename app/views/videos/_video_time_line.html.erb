@@ -1,0 +1,7 @@
+<div style="min-height:250px;">
+  <ul>
+    <%  @video.questions.each do |q|%>
+    <li><span class="video_time_line_question"><%= q.question_type %> question at - <%= Time.at(q.interaction.interaction_at).utc.strftime("%H:%M:%S") %></span></li>
+    <% end  %>
+  </ul>
+</div>
