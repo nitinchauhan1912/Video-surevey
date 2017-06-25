@@ -128,7 +128,7 @@ $('.progress-bar-interaction').mousemove(function(e) {
             var barSeekTime = videoInSecs * percentOfVideo;
             $("#time").html(formatTime(barSeekTime));
             $("#time").attr("interaction-offset",barPosition);
-            $('.moveAble').css({'left': barPosition - 95});
+            $('.moveAble').css({'left': barPosition -170});
         }
     }
 });

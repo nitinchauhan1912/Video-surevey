@@ -25,7 +25,7 @@
     margin-top: 68px;
     opacity: 0.5;
     position: absolute;
-    z-index: 9999;
+    //z-index: 9999;
     top: 124px;
 }
 .left_container {
@@ -100,6 +100,7 @@ background-color: #55a2f4;
 
 .moveAble {
     position: absolute;
+    top: -171px;
 }
 
 .bold {
@@ -111,9 +112,10 @@ background-color: #55a2f4;
     font-size: 10px;
 }
 .hover_actions{
-    width:180px;
+    width:320px;
     //height: 250px;
-    margin-top: 10px;
+    //margin-top: 10px;
+    background: white none repeat scroll 0 0;
     border: 1px solid lightgray;
     border-radius: 6px;
 }
@@ -128,6 +130,8 @@ background-color: #55a2f4;
 }
 
 .hover-actions-list-container {
+    height:128px;
+    border: 1px solid transparent;
     
 }
 
@@ -140,6 +144,8 @@ background-color: #55a2f4;
     width: 15px;
 }
 .hover-actions-list li {
+    float:left;
+    width:134px;
     margin: 10px;
 }
 .hover-actions-list li a {
@@ -162,9 +168,9 @@ background-color: #55a2f4;
 */
 .hover_actions:after, .hover_actions:before {
 	top: -11px;
-	left: 91px;
+	left: 164px;
 	border: solid transparent;
-	content: " ";
+	//content: " ";
 	height: 0;
 	width: 0;
 	position: absolute;
@@ -190,8 +196,8 @@ background-color: #55a2f4;
         background-color: #3234f4;
         height:30px; 
         width:2px;
-        top:-30px;
-        left: 90px;
+        top:171px;
+        left: 163px;
         cursor: pointer;
 
 }
