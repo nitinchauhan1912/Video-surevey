@@ -6,10 +6,10 @@ height = '390px';
   <div class="right_video_overlay" style="display:none;width:<%= width %>;height: <%= height %>;top:75px;"></div>
         
   <div class= "yt_video_title_div"><h1 id="yt_video_title"></h1></div>
-      <% if @video_type == "youtube"%>
+      <% if @video.video_type == "youtube"%>
           <div id="player"></div>
       <% else %>
-        <div class="wistia_embed wistia_async_<%= @video_id %>" style="width:<%= width %>;height: <%= height %>"></div>
+        <div class="wistia_embed wistia_async_<%= @video_id %>"  ></div>
       <% end %>
       <div class="n_p_video_progressbar">
         <div id="progressBar" class="progress-bar-interaction" style="width:<%= width %>;">
@@ -23,24 +23,20 @@ height = '390px';
   
 
 <% content_for :javascript_bottom do %> 
-  <% if @video_type == "youtube" %>  
+ <script type="text/javascript">
+  var videoID = '<%= @video_id %>';
+ </script>
+ <% if @video.video_type == "youtube" %>  
     <script src="https://www.youtube.com/iframe_api"></script>
     <%= javascript_include_tag 'video' %>
+    <%= javascript_include_tag 'youtube_question' %>
   <% else %>
-      <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>
-      <script type="text/javascript">
-            window._wq = window._wq || [];
-            _wq.push({ id: "<%= @video_id %>", onReady: function(video) {
-
-              video.bind('play', function() {
-               // $('#progressBar').show();
-              video.time(10);
-              //return video.unbind;
-            }});
-      </script>
+      <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>  
+      <%= javascript_include_tag 'wistia' %>
+      <%= javascript_include_tag 'wistia_question' %>
+      
   <% end %>
  <script type="text/javascript">
-  var videoID = '<%= @video_id  %>';
   $("#time").html(formatTime(5));
   area.width = '<%= width %>';
   area.height = '<%= height %>';
@@ -48,6 +44,5 @@ height = '390px';
   playerOption.autoplay = 1;
   playerOption.controls = 0;
  </script>
- <%= javascript_include_tag 'share_question' %>
 <% end %>
 

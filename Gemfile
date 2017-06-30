@@ -28,6 +28,7 @@ gem 'tzinfo-data'
 gem 'coffee-script-source', '1.8.0'
 
 gem 'carrierwave-video'
+gem 'video_info', '~> 2.5'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

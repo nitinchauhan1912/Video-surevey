@@ -5,6 +5,8 @@ class Video < ActiveRecord::Base
   validates :video_link, presence: true
   has_many :interactions
   has_many :questions, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :video_responses, dependent: :destroy
   validate :valid_url
 
 

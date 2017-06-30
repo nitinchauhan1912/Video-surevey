@@ -1,12 +1,11 @@
 jQuery(document).ready(function($) {
     $('#open_question').click(function(e){
       if($('.right_video').is(":visible")) {
-          $('.right_video').hide();
           $('#open_interaction_at').val($('#time').text());
           $('#open_interaction_at_offset').val($('#time').attr("interaction-offset"));
           $('.added_at').text($('#time').text());
           $('.open_questions').show();
-          
+          $("#interaction_items").hide();
       } else {
         $('.right_video').show();
         $('.open_questions').hide();
@@ -15,12 +14,11 @@ jQuery(document).ready(function($) {
 
    $('#quiz_question').click(function(){
       if($('.right_video').is(":visible")) {
-        $('.right_video').hide();
         $('#quiz_interaction_at').val($('#time').text());
         $('#quiz_interaction_at_offset').val($('#time').attr("interaction-offset"));
         $('.added_at').text($('#time').text());
         $('.quiz_questions').show();
-        
+        $("#interaction_items").hide();
       } else {
         $('.right_video').show();
         $('.quiz_questions').hide();
@@ -28,12 +26,11 @@ jQuery(document).ready(function($) {
    });
   $('#poll_question').click(function(){
       if($('.right_video').is(":visible")) {
-         $('.right_video').hide();
          $('#poll_interaction_at').val($('#time').text());
          $('#poll_interaction_at_offset').val($('#time').attr("interaction-offset"));
          $('.added_at').text($('#time').text());
          $('.poll_questions').show();
-         
+         $("#interaction_items").hide();
       } else {
          $('.right_video').show();
          $('.poll_questions').hide();
@@ -42,12 +39,11 @@ jQuery(document).ready(function($) {
 
   $('#email_question').click(function(){
       if($('.right_video').is(":visible")) {
-         $('.right_video').hide();
          $('#email_interaction_at').val($('#time').text());
          $('#email_interaction_at_offset').val($('#time').attr("interaction-offset"));
          $('.added_at').text($('#time').text());
          $('.email_questions').show();
-         
+         $("#interaction_items").hide();
       } else {
          $('.right_video').show();
          $('.email_questions').hide();
@@ -55,11 +51,12 @@ jQuery(document).ready(function($) {
   });
   
   $('.remove_popup').click(function(){
-         $('.right_video').show();
          $('.open_questions').hide();
          $('.email_questions').hide();
          $('.poll_questions').hide();
          $('.quiz_questions').hide();
+         $("#interaction_items").hide();
+         playVideo();
   });
   
   $('.spot_question').on('click', function(e){
@@ -79,18 +76,17 @@ jQuery(document).ready(function($) {
     
   });
   
-  $('#spot_cancel_question').click(function(){
+  $('#spot_cancel_question,#interaction_cancel_question').click(function(){
     $("#progressBar").addClass("progress-bar-interaction");
     $(".spot_question").removeClass("active");
-    $(".spot_question_action").toggle();
-    $("#interaction_items").toggle();
+    $(".spot_question_action").hide();
+    $("#interaction_items").hide();
      playVideo();
   });
   
   $('#spot_edit_question').click(function(){
      if($('.right_video').is(":visible")) {
          var quest_id = $(this).attr("spot_question_id");
-         $('.right_video').hide();
          $("#question_"+quest_id).show();
       } else {
          $('.right_video').show();
@@ -100,8 +96,27 @@ jQuery(document).ready(function($) {
   
   $(".remove_edit_popup").click(function(){
      var role = $(this).attr("role");
-     $("#"+role).hide();    
+     //$("#"+role).hide();    
+     $("#progressBar").addClass("progress-bar-interaction");
+     $(".spot_question").removeClass("active");
+     $("#spot_interaction_items").hide();
+     $("#interaction_items").hide();
      $('.right_video').show();
+     $("#"+role).hide();    
+        playVideo();
+     
+  });
+  
+  $('.timeline_edit_question').click(function(){
+     if($('.right_video').is(":visible")) {
+         var quest_id = $(this).attr("spot_question_id");
+         var spot_time = $(this).attr("spot_time");
+         $("#question_"+quest_id).show();
+         spotProgressBar(spot_time);
+      } else {
+         $('.right_video').show();
+         $("#question_"+quest_id).show();
+      }
   });
   
 });  

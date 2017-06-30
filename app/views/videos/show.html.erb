@@ -13,18 +13,18 @@
 <%= link_to 'Delete Video', video_path(@video), data: {:confirm => 'Are you sure?'}, :method => :delete %>
 </div>
 <div class="left_container">
-  <div class= "yt_video_title_div" style="width:760px;">
+  <div class= "yt_video_title_div" style="width:720px;">
   <h1 id="yt_video_title"></h1>
-  <div class="preview_link" style="float:right;margin:-53px 40px;width:0px;">
-      <%= link_to "Preview" , video_share_link_path(slug: @video.slug), target: '_blank', class: 'btn btn-primary btn-small'%>
-  </div>
 </div>  
+<div class="preview_link" style="float:right;margin-top:-53px;width:80px;">
+      <%= link_to "Preview" , video_share_link_path(slug: @video.slug), target: '_blank', class: 'btn btn-primary btn-small'%>
+  </div>  
 <div class="right_video">
   <div class="right_video_overlay" style="display:none;"></div>
-      <% if @video_type == "youtube"%>
+      <% if @video.video_type == "youtube"%>
           <div id="player"></div>
       <% else %>
-        <div class="wistia_embed wistia_async_<%= @video_id %>" style="width:798px;height:400px"></div>
+        <div class="wistia_embed wistia_async_<%= @video_id %>"></div>
       <% end %>
       <div class="n_p_video_progressbar">
         <div id="progressBar" class="progress-bar-interaction">
@@ -33,9 +33,9 @@
         <div id="spot_questtion_bar">
           <%= render 'questions/spot_bar', page: 'show' %>
         </div>     
+        <div class="move_cursor" style="display:none;"></div>
         <div class="moveAble">
-          <div class="move_cursor"></div>
-          <div class="hover_actions" id="interaction_items">
+          <div class="hover_actions" id="interaction_items" style="display:none;">
             <%= render 'questions/interaction_questions_list'%>
           </div>
           
@@ -47,33 +47,31 @@
           
        </div>
        <!-- moveAble ends here -->
-             
+      <%= render 'questions/questions' %>       
       </div>     
 </div>  
 </div>
-<%= render 'questions/questions' %>
 
 
 <% content_for :javascript_bottom do %> 
-  <% if @video_type == "youtube" %>  
+ <script type="text/javascript">
+  var videoID = '<%= @video_id %>';
+ </script>
+ <% if @video.video_type == "youtube" %>  
     <script src="https://www.youtube.com/iframe_api"></script>
     <%= javascript_include_tag 'video' %>
   <% else %>
-      <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>
-      <script type="text/javascript">
-            window._wq = window._wq || [];
-            _wq.push({ id: "<%= @video_id %>", onReady: function(video) {
-
-              video.bind('play', function() {
-               // $('#progressBar').show();
-              video.time(10);
-              //return video.unbind;
-            }});
-      </script>
+      <script src="//fast.wistia.com/assets/external/E-v1.js" async></script>  
+      <%= javascript_include_tag 'wistia' %>
   <% end %>
- <script type="text/javascript">
-  var videoID = '<%= @video_id %>';
+  <%= javascript_include_tag 'question' %>    
+<script type="text/javascript">
   $("#time").html(formatTime(5));
+  area.width = 798;
+  area.height = 450;
+  playerOption.showinfo = 0;
+  playerOption.autoplay = 1;
+  playerOption.controls = 0;
  </script>
- <%= javascript_include_tag 'question' %>
+  
 <% end %>

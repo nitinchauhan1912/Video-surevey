@@ -1,6 +1,9 @@
 <% @video.questions.each do |question| %>
   <% if question.question_type == 'open' 
-     spot_quest_position = get_div_left_position(question)
+        spot_quest_position = get_div_left_position(question)
+        if(spot_quest_position > 52.to_f)
+          spot_quest_position = 52.to_f
+        end
   %>
       <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
       <div id="video_title"><p><%= question.question_label %></p></div>
@@ -20,6 +23,9 @@
   
   <% if question.question_type == 'quiz' || question.question_type == 'poll' 
       spot_quest_position = get_div_left_position(question)
+      if(spot_quest_position > 52.to_f)
+          spot_quest_position = 52.to_f
+        end
   %>
       <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
         <div id="video_title"><p><%= question.question_label %></p></div>
@@ -54,6 +60,9 @@
    
  <% if question.question_type == 'email' 
       spot_quest_position = get_div_left_position(question)
+      if(spot_quest_position > 52.to_f)
+          spot_quest_position = 52.to_f
+        end
  %>
    <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
       <div id="video_title"><p><%= question.question_label %></p></div>

@@ -6,11 +6,11 @@
         <%= form_tag question_path(question), :method => :put , :remote => true do |f| %>
         <div id="open_question_textfield">
             <p>Ask an open-ended question — viewers can respond with anything they'd like.</p>
-            <%= text_area_tag "question_title", question.question_label, style: "height:256px;" %>
+            <%= text_area_tag "question_title", question.question_label, style: "height:240px;" %>
             <span class="open_error error"></span>
         </div>
         <div id="submit_actions">
-            <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_edit_popup btn-default',role: "question_#{question.id}" %>
+            <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_edit_popup btn-default video_overlay_off',role: "question_#{question.id}" %>
             <%= submit_tag 'Save', class: 'btn save_interaction btn-primary btn-small'%>
         </div>
         <% end %>
@@ -44,7 +44,7 @@
           </div>
 	</div>
 	<div id="submit_actions">
-            <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_edit_popup btn-default', role: "question_#{question.id}" %>
+            <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_edit_popup btn-default video_overlay_off', role: "question_#{question.id}" %>
             <%= submit_tag 'Save', class: 'btn save_interaction btn-primary btn-small'%>
 	</div>
 	<% end %>
@@ -66,7 +66,7 @@
         <p>Button Label- if left blank, will read 'Continue'</p>
         <%= text_field_tag "button_text", question.button_text, style: "margin:13px" %>
 	<div id="submit_actions" style="margin-top:60px;">
-            <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_edit_popup btn-default', role: "question_#{question.id}" %>
+            <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_edit_popup btn-default video_overlay_off', role: "question_#{question.id}" %>
             <%= submit_tag 'Save', class: 'btn save_interaction btn-primary btn-small'%>
 	</div>
 	<% end %>

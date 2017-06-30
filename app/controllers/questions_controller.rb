@@ -67,6 +67,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question = Question.where(:id=>params[:id]).first
+    @video = @question.video
     @question.destroy
     respond_to do |format|
       format.js

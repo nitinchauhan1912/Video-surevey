@@ -12,6 +12,8 @@ $(".poll_questions").hide();
 $(".quiz_questions").hide();
 $(".email_questions").hide();
 $('.right_video').show();
+$(".hover_actions").hide();
+playVideo();
 <% end %>
 $('.spot_question').on('click', function(e){
     e.preventDefault();
@@ -31,9 +33,27 @@ $('.spot_question').on('click', function(e){
   });
   $(".remove_edit_popup").click(function(){
      var role = $(this).attr("role");
-     $("#"+role).hide();    
+     $("#progressBar").addClass("progress-bar-interaction");
+     $(".spot_question").removeClass("active");
+     $("#spot_interaction_items").hide();
+     $("#interaction_items").hide();
      $('.right_video').show();
+     $("#"+role).hide();    
+        playVideo();
   });
+  
+  $('.timeline_edit_question').click(function(){
+     if($('.right_video').is(":visible")) {
+         var quest_id = $(this).attr("spot_question_id");
+         var spot_time = $(this).attr("spot_time");
+         $("#question_"+quest_id).show();
+         spotProgressBar(spot_time);
+      } else {
+         $('.right_video').show();
+         $("#question_"+quest_id).show();
+      }
+  });
+  
   $(".video_overlay_on").click(function(){
     //$(".right_video_overlay").attr('style','width:'+area.width+';height:'+area.height);
     $(".right_video_overlay").show();

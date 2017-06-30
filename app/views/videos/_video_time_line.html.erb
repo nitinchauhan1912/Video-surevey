@@ -1,7 +1,11 @@
 <div style="min-height:250px;">
   <ul>
     <%  @video.questions.each do |q|%>
-    <li><span class="video_time_line_question"><%= q.question_type %> question at - <%= Time.at(q.interaction.interaction_at).utc.strftime("%H:%M:%S") %></span></li>
+    <li>
+      <span class="video_time_line_question"><%= q.question_type %> question at - <%= Time.at(q.interaction.interaction_at).utc.strftime("%H:%M:%S") %></span>
+        <a href="javascript:void(0);" class="timeline_edit_question video_overlay_on" spot_question_id="<%= q.id %>" spot_time="<%= q.interaction.interaction_at %>">Edit</a> | 
+        <%= link_to("Delete", question_path(q), :remote => true, :method => :delete, :confirm => "Are you sure?", :class=>"timeline_delete_question video_overlay_off" )%> 
+    </li>
     <% end  %>
   </ul>
 </div>

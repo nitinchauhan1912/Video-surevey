@@ -3,30 +3,60 @@
   <span id="time" interaction-offset="45"></span>
 </div>
 <div class="hover-actions-list-container">
+  <div class="hover-actions-list">
+    <span class="list-icon"><%= image_tag 'open_question.png' %></span>
+      <%= link_to "Open Question",'javascript:void(0);',  id: 'open_question'%>
+  </div>
+  <div class="hover-actions-list">
+    <span class="list-icon"><%= image_tag 'quizz.png' %></span>
+      <%= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question'%>
+  </div>
+  <div class="hover-actions-list">
+    <span class="list-icon"><%= image_tag 'call-to-action.png' %></span>
+      <%= link_to "Call to Action"%>
+  </div>
+  
+  <div class="hover-actions-list">
+    <span class="list-icon poll"><%= image_tag 'poll.png' %></span>
+      <%= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question'%>
+  </div>
+  <div class="hover-actions-list">
+    <span class="list-icon"><%= image_tag 'email.png' %></span>
+      <%= link_to "Collect Email",'javascript:void(0);' , id: 'email_question' %>
+  </div>
+  <div class="hover-actions-list">
+    <span class="list-icon"><%= image_tag 'password_gate.png' %></span>
+      <%= link_to "Password Gate"%>
+  </div>
+  <div class="hover-actions-footer">
+    <span><a href="javascript:void(0);" id="interaction_cancel_question" class="video_overlay_off" spot_question_id="0">Cancel</a></span>
+  </div>
+ <!-- ••• 
   <ul class="hover-actions-list">
     <li>
-      <span class="list-icon"><%= image_tag 'text.png' %></span>
-      <%= link_to "Open Question",'javascript:void(0);',  id: 'open_question'%>
-    </li>
-    <li style="float:left; ">
-      <span class="list-icon"><%= image_tag 'question.png' %></span>
-      <%= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question'%>
+      <span class="list-icon"><%#= image_tag 'text.png' %></span>
+      <%#= link_to "Open Question",'javascript:void(0);',  id: 'open_question'%>
     </li>
     <li>
-      <span class="list-icon"><%= image_tag 'cta.png' %></span>
-      <%= link_to "Call to Action"%>
+      <span class="list-icon"><%#= image_tag 'question.png' %></span>
+      <%#= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question'%>
     </li>
     <li>
-      <span class="list-icon poll"><%= image_tag 'question.png' %><%#= image_tag 'poll.png' %></span>
-      <%= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question'%>
+      <span class="list-icon"><%#= image_tag 'cta.png' %></span>
+      <%#= link_to "Call to Action"%>
     </li>
     <li>
-      <span class="list-icon"><%= image_tag 'question.png' %></span>
-      <%= link_to "Collect Email",'javascript:void(0);' , id: 'email_question' %>
+      <span class="list-icon poll"><%#= image_tag 'poll.png' %></span>
+      <%#= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question'%>
     </li>
     <li>
-      <span class="list-icon"><%= image_tag 'question.png' %></span>
-      <%= link_to "Password Gate"%>
+      <span class="list-icon"><%#= image_tag 'question.png' %></span>
+      <%#= link_to "Collect Email",'javascript:void(0);' , id: 'email_question' %>
+    </li>
+    <li>
+      <span class="list-icon"><%#= image_tag 'question.png' %></span>
+      <%#= link_to "Password Gate"%>
     </li>
   </ul>
+ -->
 </div>

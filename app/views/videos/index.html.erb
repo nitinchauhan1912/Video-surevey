@@ -1,18 +1,33 @@
+<% VideoInfo.provider_api_keys = { youtube: 'AIzaSyC4eCUmPuop7qWhcLf6JGTEheTfS7boG1M'} %>
 <div class="video_lists">
   <h1>My Videos</h1>
   <div class="parent">
+    <% @question_lables.inspect %>
     <% @videos.each do |video| %>
       <% video_id = video.video_link.split('?v=').last %>
-        <div class="child">
-          <div style="height:215px;float: left">
-            <%= link_to image_tag("https://img.youtube.com/vi/#{video_id}/mqdefault.jpg") , video_path(slug: video.slug), target: '_blank' %>
-              <p style="font-size: 12px;text-align: left;margin-top: 10px;">0 Responses</p></div>
-              <div style="position:absolute;margin-top:214px"><%= link_to "View Responses",'', class: 'btn btn-primary btn-small' %></div>
-              <div class="btns" style="position:absolute;margin:214px"><%= link_to "Download csv",'', class: 'btn btn-primary btn-small'%></div> 
+      <div class="child">
+        <div style="height:215px;float: left">
+          <% 
+           title = ''
+           if video.video_type == 'wistia' 
+              v = VideoInfo.new("#{video.video_link}")
+              title = v.title
+              thumb_url = v.thumbnail_small
+           end 
+          %>
+          <p><%= title %></p>
+          <% if video.video_type == 'wistia' %>
+            <%= link_to image_tag(thumb_url,width: '350px') , video_path(slug: video.slug),target: '_blank' %>
+          <% else %>
+            <%= link_to image_tag("https://img.youtube.com/vi/#{video_id}/mqdefault.jpg",width: '350px') , video_path(slug: video.slug), target: '_blank' %>
+          <% end %>
+          <p style="font-size: 12px;text-align: left;margin-top: 10px;"><%= video.video_responses.count   %> Responses</p></div>
+          <div style="position:absolute;margin-top:265px">
+            <%= link_to "View Responses",video_responses_path(id:video.id), class: 'btn btn-primary btn-small' %>
           </div>
-        
-      
-    <% end %>
-  </div>
-<br>
-<%#= link_to 'New Video', new_video_path %>
+          <div class="btns" style="position:absolute;margin:265px 240px"><%= link_to "Download csv",'', class: 'btn btn-primary btn-small'%></div> 
+          </div>
+         <% end %>
+      </div>
+      <br>
+    <%#= link_to 'New Video', new_video_path %>

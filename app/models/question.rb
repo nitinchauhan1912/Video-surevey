@@ -1,7 +1,7 @@
 class Question < ActiveRecord::Base
 	belongs_to :video
 	has_one :interaction, dependent: :destroy
-  has_one :answer, dependent: :destroy
+  has_many :answers
    
   validates :question_label, presence: true
   

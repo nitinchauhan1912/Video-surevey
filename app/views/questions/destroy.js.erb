@@ -3,10 +3,11 @@ id = @question.id
 interaction = @question.interaction.interaction_at_offset
 interaction_at = @question.interaction.interaction_at
 %>
+$('#video_time_line').html("<%= j render(:partial => 'videos/video_time_line') %>");
 $("#spot_question_<%= id %>_<%= interaction_at %>_<%= interaction %>").remove();
 $("#question_<%= @question.id %>").remove();
 $("#progressBar").addClass("progress-bar-interaction");
-$(".spot_question_action").toggle();
-$("#interaction_items").toggle();
+$("#spot_interaction_items").hide();
+$("#interaction_items").hide();
 $('.right_video').show();
 playVideo();

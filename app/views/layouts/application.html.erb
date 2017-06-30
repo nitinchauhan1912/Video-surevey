@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Invidly</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-	<body>
-		<%= render 'layouts/header' %>
-	  <div class="container">
-	  	<% flash.each do |key, value| %>
-     <div class="alert alert-<%= key %>"><strong><%= value %></strong></div>   
-  <% end %>
-	    <%= yield %>
-	  </div>
-          <%= yield :javascript_bottom %>
-	</body>
+  <head>
+    <title>Invidly</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <%= render 'layouts/header' %>
+    <div class="container">
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><strong><%= value %></strong></div>   
+          <% end %>
+          <%= yield %>
+    </div>
+    <%= yield :javascript_bottom %>
+    </div>
+    <div style="border-top:0px solid lightgray;height:100px;;margin-top: 220px;">
+      
+    </div>
+  </body>
+  
 </html>

@@ -1,6 +1,8 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:edit, :update, :destroy]
   before_action :check_authentication, except: [:share,:embed,:video_response_answer]
+  before_action :reset_video_response_id, only: [:share,:embed]
+
   
   def index
     @videos = Video.where(user_id: current_user.id)
@@ -9,14 +11,11 @@ class VideosController < ApplicationController
   def show
     @video = Video.find_by_slug(params[:slug])
     if(@video.user_id == current_user.id)
-      uri = URI.parse(@video.video_link)
-      @video_type = ""
-      if !uri.host.nil? && uri.host == "www.youtube.com"
+      
+      if @video.video_type == "youtube"
         @video_id = @video.video_link.split("?v=").last
-        @video_type = "youtube"
-      elsif !uri.host.nil? && uri.host.split(".").include?("wistia")
+      else
         @video_id = @video.video_link.split("/").last
-        @video_type = "wistia"
        end
     else
       respond_to do |format|
@@ -40,9 +39,13 @@ class VideosController < ApplicationController
     @video = Video.new(video_params)
     @video.slug = SecureRandom.hex
     @video.user_id = current_user.id
+    video_type = get_video_type_throug_url(params["video"]["video_link"])
+    @error = false
+    @video.video_type = video_type
+    @error = true if(!video_type.present?)
     respond_to do |format|
-      if @video.save
-        flash[:success] = "Video was successfully created."
+      if !@error && @video.valid_url && @video.save
+        #flash[:success] = "Video was successfully created."
         format.html { redirect_to video_path(slug: @video.slug)}
         format.json { render :show, status: :created, location: @video }
       else
@@ -84,15 +87,11 @@ class VideosController < ApplicationController
     if params[:slug].present?
       @video = Video.find_by_slug(params[:slug])
       @interactions = @video.interactions
-      uri = URI.parse(@video.video_link)
-      @video_type = ""
-      if !uri.host.nil? && uri.host == "www.youtube.com"
+      if @video.video_type == "youtube"
         @video_id = @video.video_link.split("?v=").last
-        @video_type = "youtube"
-      elsif !uri.host.nil? && uri.host.split(".").include?("wistia")
+      else
         @video_id = @video.video_link.split("/").last
-        @video_type = "wistia"
-      end
+       end
     end
   end
 
@@ -100,15 +99,11 @@ class VideosController < ApplicationController
     if params[:slug].present?
       @video = Video.find_by_slug(params[:slug])
       @interactions = @video.interactions
-      uri = URI.parse(@video.video_link)
-      @video_type = ""
-      if !uri.host.nil? && uri.host == "www.youtube.com"
+      if @video.video_type == "youtube"
         @video_id = @video.video_link.split("?v=").last
-        @video_type = "youtube"
-      elsif !uri.host.nil? && uri.host.split(".").include?("wistia")
+      else
         @video_id = @video.video_link.split("/").last
-        @video_type = "wistia"
-      end
+       end
     end
   end
   
@@ -117,6 +112,17 @@ class VideosController < ApplicationController
   end
   
   private
+  
+    def get_video_type_throug_url(video_url)
+      uri = URI.parse(video_url)
+      video_type = ""
+      if !uri.host.nil? && uri.host == "www.youtube.com"
+        video_type = "youtube"
+      elsif !uri.host.nil? && uri.host.split(".").include?("wistia")
+        video_type = "wistia"
+      end
+      video_type
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_video
       @video = Video.find(params[:slug])
@@ -132,5 +138,9 @@ class VideosController < ApplicationController
         flash[:warning] = "Your are not authorize to view any content until you sign in."
         redirect_to '/'
       end  
+    end
+    
+    def reset_video_response_id
+      session[:response_id] = nil
     end
 end
