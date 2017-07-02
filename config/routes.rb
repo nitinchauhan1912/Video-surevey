@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :videos, param: :slug
+  resources :videos, param: :slug do
+    get "responses"=> "answers#index", on: :member, constraints: { format: /(html|csv)/ }
+  end
   devise_for :users
   root "pages#home"
   get "about" => "pages#about"
@@ -11,7 +13,8 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers
   end
-  get "videos/:id/responses"=> "answers#index", as: :video_responses
+  
+  
   
 
   # The priority is based upon order of creation: first created -> highest priority.

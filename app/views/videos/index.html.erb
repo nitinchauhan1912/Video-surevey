@@ -2,7 +2,6 @@
 <div class="video_lists">
   <h1>My Videos</h1>
   <div class="parent">
-    <% @question_lables.inspect %>
     <% @videos.each do |video| %>
       <% video_id = video.video_link.split('?v=').last %>
       <div class="child">
@@ -22,10 +21,15 @@
             <%= link_to image_tag("https://img.youtube.com/vi/#{video_id}/mqdefault.jpg",width: '350px') , video_path(slug: video.slug), target: '_blank' %>
           <% end %>
           <p style="font-size: 12px;text-align: left;margin-top: 10px;"><%= video.video_responses.count   %> Responses</p></div>
+          
           <div style="position:absolute;margin-top:265px">
-            <%= link_to "View Responses",video_responses_path(id:video.id), class: 'btn btn-primary btn-small' %>
+            <%= link_to "View Responses", responses_video_path(slug:video.slug), class: 'btn btn-primary btn-small' %>
           </div>
-          <div class="btns" style="position:absolute;margin:265px 240px"><%= link_to "Download csv",'', class: 'btn btn-primary btn-small'%></div> 
+          <div style="position:absolute;margin:265px 150px">
+            <%= link_to "Delete",video_path(slug:video.slug),data: {:confirm => 'Are you sure?'}, :method => :delete, class: 'btn btn-primary btn-small' %>
+          </div>
+          
+          <div class="btns" style="position:absolute;margin:265px 240px"><%= link_to "Download csv",responses_video_path(slug:video.slug)+'.csv', class: 'btn btn-primary btn-small'%></div> 
           </div>
          <% end %>
       </div>

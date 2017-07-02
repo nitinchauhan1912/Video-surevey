@@ -2,30 +2,34 @@ class AnswersController < ApplicationController
   before_action :check_authentication, except: [:create]
   
   def index
-    @video = Video.find(params[:id])
-    @responses = nil
+    @video = Video.find_by_slug(params[:slug])
     questions = @video.questions
-    question_ids = questions.collect(&:id)
-    @question_lables = []
-    @question_lables = ['Date'] + questions.collect(&:question_label)
-    
+    question_ids = @video.answers.order("video_response_id DESC").collect(&:question_id).uniq
+    @questions_label = ["Timestamp"] + Answer.where(:question_id =>question_ids).order("video_response_id DESC").collect(&:question_name).uniq
+    @responses = []
     if @video && @video.user_id == current_user.id
-      @responses = {}
-      @video.video_responses.each do |video_response|
-        @responses[video_response.id] = []
-        video_response.answers.order("question_id ASC").each do |answer|
-          if question_ids.include?(answer.question_id)
-              @responses[video_response.id] << answer.value
+      @video.video_responses.order("id DESC").each do |video_response|
+        video_responses = []
+        video_responses << video_response.created_at.utc
+        question_ids.each do |q_id|
+          answers = Answer.where("question_id = ? AND video_response_id = ?",q_id,video_response.id)
+          if answers.size > 0
+            if answers.first.question_type == 'email'
+              video_responses << answers.first.value.gsub("$$$","/")
+            else
+              video_responses << answers.first.value
+            end
           else
-            @question_lables << answer.question_name
-            @responses[video_response.id] << answer.value
+            video_responses << nil
           end
-        end  
-      end
-    end 
-    Rails.logger.info "********************#{@responses.inspect}"
-    Rails.logger.info "********************#{@question_lables.inspect}"
-    @question_lables.uniq
+        end
+       @responses << video_responses
+      end  
+    end
+    respond_to do |format|
+      format.html
+      format.csv { send_data Answer.to_csv(@questions_label,@responses) }
+    end
   end
   
   def create
@@ -40,7 +44,7 @@ class AnswersController < ApplicationController
     if(@question.question_type == 'email')
       value = params[:share_question_answer_name]+'$$$'+params[:share_question_answer_email]
     end
-    @answer = Answer.new({:value=>value,:video_id=>@question.video.id,:question_name=>@question.question_label,:question_id => @question.id,:video_response_id=>session[:response_id]})
+    @answer = Answer.new({:value=>value, :video_id => @question.video.id, :question_name=>@question.question_label,:question_id => @question.id,:video_response_id=>session[:response_id],:question_type=>@question.question_type})
     
     @error = false
     respond_to do |format|
