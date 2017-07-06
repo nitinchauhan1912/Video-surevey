@@ -1,0 +1,26 @@
+<div class="cta_questions question-style" style="display:none;">
+   <div id="video_title"><h3>Add Call to Action at - <span class="added_at"></span></h3></div> 
+   <div class="question_form_container">
+    <%= form_tag('/questions', remote: true, id: 'cta_question_form') do %>
+     <div id="email_question_textfield">
+       <p>Text on the popup box to prompt user.</p>
+       <%= hidden_field_tag 'video_id', @video.id %>
+       <%= hidden_field_tag :interaction_at, 0, {:id => 'cta_interaction_at'}%>
+       <%= hidden_field_tag :interaction_at_offset, 0, {:id => 'cta_interaction_at_offset'}%>
+       <%= hidden_field_tag 'question_type', "cta" %>
+       <%= text_area_tag "question_title", "", style: "height:80px;" %>
+       <span class="cta_error error">&nbsp;</span>
+       <%= text_field_tag "btn_url", "", placeholder: "Button URL Link",style: "margin:10px"%>
+        <!-- <div id="email_button"> -->
+        <p>Button Label- if left blank, will read 'Continue'</p>
+        <%= text_field_tag "button_text", "", style: "margin:13px" %>
+        <!-- </div> -->
+     </div>
+       
+     <div id="submit_actions" style="margin-top:22px;">
+          <%= link_to 'Cancel', 'javascript:void(0);' , class: 'btn remove_popup btn-default video_overlay_off' %>
+          <%= submit_tag 'Save', class: 'btn save_interaction btn-primary btn-small video_overlay_off'%>
+      </div>
+    <% end %>
+   </div> 
+</div>

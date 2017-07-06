@@ -1,10 +1,10 @@
-<% @video.questions.each do |question| %>
-  <% if question.question_type == 'open' 
-        spot_quest_position = get_div_left_position(question)
-        if(spot_quest_position > 52.to_f)
-          spot_quest_position = 52.to_f
-        end
-  %>
+<% @video.questions.each do |question| 
+    spot_quest_position = get_div_left_position(question)
+    if(spot_quest_position > 52.to_f)
+       spot_quest_position = 52.to_f
+    end
+%>
+  <% if question.question_type == 'open' %>
       <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
       <div id="video_title"><p><%= question.question_label %></p></div>
         <div class="share_question_form_container"> 
@@ -21,12 +21,7 @@
       </div>
   <% end %>
   
-  <% if question.question_type == 'quiz' || question.question_type == 'poll' 
-      spot_quest_position = get_div_left_position(question)
-      if(spot_quest_position > 52.to_f)
-          spot_quest_position = 52.to_f
-        end
-  %>
+  <% if question.question_type == 'quiz' || question.question_type == 'poll' %>
       <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
         <div id="video_title"><p><%= question.question_label %></p></div>
         <div class="share_question_form_container">
@@ -58,12 +53,7 @@
   <% end %>
 
    
- <% if question.question_type == 'email' 
-      spot_quest_position = get_div_left_position(question)
-      if(spot_quest_position > 52.to_f)
-          spot_quest_position = 52.to_f
-        end
- %>
+ <% if question.question_type == 'email' %>
    <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
       <div id="video_title"><p><%= question.question_label %></p></div>
         <div class="share_question_form_container">       
@@ -83,5 +73,41 @@
         </div>  
     </div>
  <% end %>
+
+  
+<% if question.question_type == 'cta' %>
+   <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
+      <div id="video_title"><p><%= question.question_label %></p></div>
+        <div class="share_question_form_container">       
+          <%= form_tag question_answers_path(question),:html => {:target=>'_blank'}, :method => :post , :remote => true do |f| %>
+          <%= hidden_field_tag "share_question_answer",question.btn_url%>
+          <div id="submit_actions" style="float:right">
+                <%= link_to 'Skip', 'javascript:void(0);' , class: 'btn remove_popup btn-default video_overlay_off', role: "#{question.id}" %>
+                <% btn_name = (question.button_text.present?) ? question.button_text  : 'Continue' %>
+                <%= submit_tag "#{btn_name}", class: 'btn save_interaction btn-primary btn-small', target: '_blank'%>
+          </div>
+          <% end %>
+        </div>  
+    </div>
+ <% end %>
+
+<% if question.question_type == 'password' %>
+   <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
+      <div id="video_title"><p><%= question.question_label %></p></div>
+        <div class="share_question_form_container">       
+        <%= form_tag question_answers_path(question), :method => :post , :remote => true do |f| %>
+	<div>
+            <%= text_field_tag "share_question_answer",""%>
+            <span class="password_error error"></span>
+        </div>
+        <div id="submit_actions" style="float:right">
+              <% btn_name = (question.button_text.present?) ? question.button_text  : 'Continue' %>
+              <%= submit_tag "#{btn_name}", class: 'btn save_interaction btn-primary btn-small'%>
+	</div>
+	<% end %>
+        </div>  
+    </div>
+ <% end %>
+
 
 <%  end %>

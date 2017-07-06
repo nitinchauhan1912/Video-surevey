@@ -10,7 +10,7 @@
     <%= render 'video_time_line' %>
 </div>
 <br>
-<%= link_to 'Delete Video', video_path(@video), data: {:confirm => 'Are you sure?'}, :method => :delete %>
+<%= link_to 'Delete Video', video_path(@video), data: {:confirm => 'Are you sure?'}, :method => :delete, :style=>"text-decoration:underline" %>
 </div>
 <div class="left_container">
   <div class= "yt_video_title_div" style="width:720px;">

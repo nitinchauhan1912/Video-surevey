@@ -35,7 +35,7 @@
     margin-top: 68px;
 }
 
-.open_questions, .quiz_questions, .email_questions, .poll_questions, .question{
+.open_questions, .quiz_questions, .email_questions, .poll_questions, .cta_questions, .password_questions, .question, .new_questions{
 	width:100%;
 	margin-top: -465px;
 	height:430px;
@@ -44,7 +44,7 @@
         z-index: 10000;
 }
 
-.quiz_error, .poll_error, .email_error, .open_error{
+.quiz_error, .poll_error, .email_error, .open_error, .cta_error, .password_error{
     margin:0px 11px 11px 11px; 
 }
 
@@ -174,13 +174,13 @@ background-color: #55a2f4;
     margin: 10px;
 }
 .edit_hover-actions-list li a {
-    color: #ea6857;
+    color: #636c76;
     text-decoration: none;
     margin-left: 10px;
     
 }
 .edit_hover-actions-list li a:hover {
-    color: #e43f2a;
+    color: #333;
 }
 
 /*
@@ -338,7 +338,7 @@ background-color: #55a2f4;
 /*************** share question **************/
 .share-question-style #video_title {
     margin: 10px 15px;
-    color: #333;
+    color: #fff;
     font-weight: bold;
 }
 .share-question-style {

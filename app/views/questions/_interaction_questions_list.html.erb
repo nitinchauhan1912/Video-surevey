@@ -13,7 +13,7 @@
   </div>
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'call-to-action.png' %></span>
-      <%= link_to "Call to Action"%>
+      <%= link_to "Call to Action", 'javascript:void(0);', id: 'cta_question', class: "new_question"%>    
   </div>
   
   <div class="hover-actions-list">
@@ -22,11 +22,11 @@
   </div>
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'email.png' %></span>
-      <%= link_to "Collect Email",'javascript:void(0);' , id: 'email_question' %>
+      <%= link_to "Collect Email",'javascript:void(0);' , id: 'email_question', class: "new_question" %>
   </div>
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'password_gate.png' %></span>
-      <%= link_to "Password Gate"%>
+      <%= link_to "Password Gate",'javascript:void(0);' , id: 'password_question', class: "new_question" %>
   </div>
   <div class="hover-actions-footer">
     <span><a href="javascript:void(0);" id="interaction_cancel_question" class="video_overlay_off" spot_question_id="0">Cancel</a></span>

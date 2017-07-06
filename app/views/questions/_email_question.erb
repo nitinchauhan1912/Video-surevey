@@ -1,7 +1,7 @@
 <div class="email_questions question-style" style="display:none;">
-   <div id="video_title"><h3>Collect Email a - <span class="added_at"></span></h3></div> 
+   <div id="video_title"><h3>Add Collect Email at - <span class="added_at"></span></h3></div> 
    <div class="question_form_container">
-    <%= form_tag('/questions', remote: true, id: 'open_question_form') do %>
+    <%= form_tag('/questions', remote: true, id: 'email_question_form') do %>
      <div id="email_question_textfield">
        <p>Text on the popup box to prompt user to enter name and email address</p>
        <%= hidden_field_tag 'video_id', @video.id %>

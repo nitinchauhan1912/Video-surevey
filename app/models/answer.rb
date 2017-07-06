@@ -1,5 +1,4 @@
 class Answer < ApplicationRecord
-  require 'csv'
   belongs_to :video
   belongs_to :question
   

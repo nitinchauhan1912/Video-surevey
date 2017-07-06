@@ -1,5 +1,17 @@
+<% if @error %>
+   $(".<%= @question.question_type %>_error").attr("style","font-color:red"); 
+   <% if @error_type == 'password' %>
+      $(".<%= @question.question_type %>_error").text("Invalid password.");
+   <% else %>
+      $(".<%= @question.question_type %>_error").text("Can't be blank.");
+   <% end %>   
+<% else %>
+
 $(".spot_bar_<%= @question.id %>").hide(); 
 $("#question_<%= @question.id %>").remove();
 playVideo();
 $(".right_video_overlay").hide();
-
+<% if @question.question_type == 'cta' %>
+window.location = "<%= @question.btn_url %>";
+<% end %>
+<% end %>

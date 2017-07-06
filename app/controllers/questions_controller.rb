@@ -22,12 +22,16 @@ class QuestionsController < ApplicationController
       @question.poll_type_question_attr(params)
     elsif(@question.question_type == 'email')  
       @question.email_type_question_attr(params)
+    elsif(@question.question_type == 'cta')  
+      @question.cta_type_question_attr(params)
+    elsif(@question.question_type == 'password')  
+      @question.password_type_question_attr(params)  
     end
     time = params[:interaction_at].split(":")
     interaction_offset = params[:interaction_at_offset].to_i
     time_in_sec = time[0].to_i * 3600 + time[1].to_i * 60 + time[2].to_i
+    #debugger
     @error = {}
-
     if @question.valid? && @question.save
       @question.interaction.create_interaction(time_in_sec,interaction_offset)
     else
@@ -53,6 +57,10 @@ class QuestionsController < ApplicationController
       @question.poll_type_question_attr(params)
     elsif(@question.question_type == 'email')  
       @question.email_type_question_attr(params)
+   elsif(@question.question_type == 'cta')  
+      @question.cta_type_question_attr(params)
+   elsif(@question.question_type == 'password')  
+      @question.password_type_question_attr(params)     
     end
     @error = {}
     if @question.valid?

@@ -50,11 +50,30 @@ jQuery(document).ready(function($) {
       }
   });
   
+  $('#cta_question').click(function(){
+         $('#cta_interaction_at').val($('#time').text());
+         $('#cta_interaction_at_offset').val($('#time').attr("interaction-offset"));
+         $('.added_at').text($('#time').text());
+         $('.cta_questions').show();
+         $("#interaction_items").hide();
+  });
+  
+  $('#password_question').click(function(){
+         $('#password_interaction_at').val($('#time').text());
+         $('#password_interaction_at_offset').val($('#time').attr("interaction-offset"));
+         $('.added_at').text($('#time').text());
+         $('.password_questions').show();
+         $("#interaction_items").hide();
+  });
+  
+  
   $('.remove_popup').click(function(){
          $('.open_questions').hide();
          $('.email_questions').hide();
          $('.poll_questions').hide();
          $('.quiz_questions').hide();
+         $('.cta_questions').hide();
+         $('.password_questions').hide();
          $("#interaction_items").hide();
          playVideo();
   });

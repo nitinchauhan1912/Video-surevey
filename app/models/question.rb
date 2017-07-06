@@ -38,7 +38,15 @@ class Question < ActiveRecord::Base
   def email_type_question_attr(params)
     self.button_text = params[:button_text]
   end
-
+  
+  def cta_type_question_attr(params)
+    self.button_text = params[:button_text]
+    self.btn_url = params[:btn_url]
+  end
 	
+  def password_type_question_attr(params)
+    self.button_text = params[:button_text]
+    self.choice_1 = params[:choice_1]
+  end
 
 end

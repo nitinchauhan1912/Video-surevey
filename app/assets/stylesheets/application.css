@@ -14,18 +14,18 @@
  *= require_self
  */
 a {
-    color: #ea6857;
+    color: #636c76;
     text-decoration: none;    
 }
 a:hover {
-    color: #e43f2a;
+    color: #333;
     text-decoration: none;
 }
 
 .btn{
-    background-color: #EA6857;
+    background-color: #47525E;
     margin-right: 30px;
-    border-color:#EA6857;
+    border-color:#47525E;
     color:#fff;
 }
 .btn.btn-default {
@@ -43,6 +43,16 @@ a:hover {
     background-color: white;
     margin-right: 20px;
     border:1px solid black;
+}
+
+.btn-primary:hover{
+    background-color: lightgray;
+    border-color: lightgray;
+}
+
+.btn-small:focus, .btn-small.focus, .btn-primary:focus, .btn-primary.focus {
+    background-color: lightgray;
+    border-color: lightgray;
 }
 /*
 .btn {font-color: #000000;}*/

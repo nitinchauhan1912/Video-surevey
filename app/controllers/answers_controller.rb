@@ -33,6 +33,8 @@ class AnswersController < ApplicationController
   end
   
   def create
+    @error = false
+    @error_type = ''
     @question = Question.find(params[:question_id])
     if !session[:response_id].present?
        video_response = VideoResponse.new
@@ -43,15 +45,18 @@ class AnswersController < ApplicationController
     value = params[:share_question_answer]
     if(@question.question_type == 'email')
       value = params[:share_question_answer_name]+'$$$'+params[:share_question_answer_email]
+    elsif @question.question_type == 'password' && @question.choice_1 != value
+      @error = true
+      @error_type = 'password'
     end
-    @answer = Answer.new({:value=>value, :video_id => @question.video.id, :question_name=>@question.question_label,:question_id => @question.id,:video_response_id=>session[:response_id],:question_type=>@question.question_type})
-    
-    @error = false
-    respond_to do |format|
-      if @answer.save
+    @answer = Answer.new({:value=>value,:question_name=>@question.question_label,:question_id => @question.id,:video_response_id=>session[:response_id],:question_type=>@question.question_type,:video_id =>@question.video.id })
+    if !@error
+      if @answer.save 
       else
-        @error = true
+        @error_type = 'save'
       end
+    end
+    respond_to do |format|
       format.js { render "create" }
     end
     
