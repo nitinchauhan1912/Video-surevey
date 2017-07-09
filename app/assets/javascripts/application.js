@@ -33,6 +33,8 @@ function convert_time(seconds) {
     return time;
 }
 
-function inseconds(){
-    
+function inseconds(newtime){
+     var time = newtime.split(":");
+     var time_in_sec = (parseInt(time[0] * 3600) + parseInt(time[1] * 60) + parseInt(time[2]));
+     return time_in_sec;
 }

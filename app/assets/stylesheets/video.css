@@ -111,7 +111,7 @@ background-color: #55a2f4;
 }
 .hover_actions{
     width:280px;
-    height: 205px;
+    height: 210px;
     margin-top: -250px;
     border: 1px solid lightgray;
     border-radius: 6px;
@@ -124,7 +124,7 @@ background-color: #55a2f4;
 }
 .hover-actions-footer {
     border-top: 1px solid lightgray;
-    padding: 5px 110px;
+    padding: 8px 118px;
     margin-top: 125px;
     position: absolute;
     width: 99%;
@@ -338,14 +338,17 @@ background-color: #55a2f4;
 /*************** share question **************/
 .share-question-style #video_title {
     margin: 10px 15px;
-    color: #fff;
+    color: #333;
     font-weight: bold;
+    text-align: justify;
+    text-justify: inter-word;
 }
 .share-question-style {
-    background-color: #55a2f4;
+    background-color: #fff;
     border: none;
-    color: #fff;
+    color: #333;
     z-index: 10000;
+    margin:-25px 190px;
 }
 
 .share-question-style .share_question_form_container {

@@ -1,5 +1,9 @@
 $(document).ready(function() {
     $('.spot_question').click(function() {
+        is_mouse_enter_interaction_item = false;
+        $("#interaction_items").hide();
+        $(".move_cursor").hide();
+        
         var id_attr = $(this).attr('id').split('_');
         var id = id_attr[2];
         if ($("#question_" + id).length !== 0) {

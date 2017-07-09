@@ -3,7 +3,10 @@
   <head>
     <title>Invidly</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag    'jquery.datatables.min', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'jquery.datatables.min', 'data-turbolinks-track' => true %>
+    
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
@@ -16,7 +19,6 @@
           <%= yield %>
     </div>
     <%= yield :javascript_bottom %>
-    </div>
     <div style="border-top:0px solid lightgray;height:100px;;margin-top: 220px;">
       
     </div>

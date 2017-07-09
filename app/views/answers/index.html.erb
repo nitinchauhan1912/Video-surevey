@@ -1,6 +1,3 @@
-<%  
-width = 100/@questions_label.size
-%>
 <div class="responses_list">
   <div style="font-size:22px;margin:10px;">
     <% title = ''
@@ -11,24 +8,43 @@ width = 100/@questions_label.size
    %>
     <%= 'Response - '+title %> 
   </div>
-  <table border="1px solid lightgrey" width="100%">
+  <table id="stdcode" class="table table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example_info" style="width: 100%;">
     <% if @responses.size > 0 %>
-    <tr>
-        <% @questions_label.each do |ql| %>
-      <td height="50px" style="text-align:center;width:<%=width.to_s+'%' %>"><strong><%= ql %></strong></td>
-      <% end %>
-    </tr>
+    <thead>
+            <tr>
+                <% @questions_label.each do |ql| %>
+                <th><%= ql %></th>
+                <% end %>
+            </tr>
+     </thead>
+    
       <% @responses.each do |response|  %>
       <tr>
          <%  response.each do |row| %>
           <td height="50px" style="text-align: center;"><%= row %> </td>
           <% end %>
-      </tr> 
+      </tr>
      <% end  %>
+     <tfoot>
+            <tr>
+                <% @questions_label.each do |ql| %>
+                <th><%= ql %></th>
+                <% end %>
+            </tr>
+     </tfoot> 
    <% else %>
       <tr><td> There is no response available.</td></tr>
     <% end %>
   </table>
   
-  
+<script>
+ $(function(){
+   $('#stdcode').DataTable({
+       "processing": true,
+       "order": [[ 0, "desc" ]]
+     });
+ });
+</script>
 </div>
+<% content_for :javascript_bottom do %> 
+<% end %>

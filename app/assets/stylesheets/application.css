@@ -19,8 +19,13 @@ a {
 }
 a:hover {
     color: #333;
-    text-decoration: none;
+    text-decoration: underline;
 }
+
+a:hover, a:focus {
+    color: #333;
+}
+
 
 .btn{
     background-color: #47525E;

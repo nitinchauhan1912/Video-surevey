@@ -3,7 +3,8 @@
     if(spot_quest_position > 52.to_f)
        spot_quest_position = 52.to_f
     end
-%>
+    spot_quest_position =0;
+%>   
   <% if question.question_type == 'open' %>
       <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
       <div id="video_title"><p><%= question.question_label %></p></div>
@@ -77,11 +78,11 @@
   
 <% if question.question_type == 'cta' %>
    <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
-      <div id="video_title"><p><%= question.question_label %></p></div>
+      <div id="video_title" style="margin:20px;"><p><%= question.question_label %></p></div>
         <div class="share_question_form_container">       
           <%= form_tag question_answers_path(question),:html => {:target=>'_blank'}, :method => :post , :remote => true do |f| %>
           <%= hidden_field_tag "share_question_answer",question.btn_url%>
-          <div id="submit_actions" style="float:right">
+          <div id="submit_actions" style="float:right;margin:60px 130px;">
                 <%= link_to 'Skip', 'javascript:void(0);' , class: 'btn remove_popup btn-default video_overlay_off', role: "#{question.id}" %>
                 <% btn_name = (question.button_text.present?) ? question.button_text  : 'Continue' %>
                 <%= submit_tag "#{btn_name}", class: 'btn save_interaction btn-primary btn-small', target: '_blank'%>
@@ -93,14 +94,14 @@
 
 <% if question.question_type == 'password' %>
    <div class="share_question share-question-style" id="question_<%= question.id %>" style="display:none;left:<%= spot_quest_position.to_s+"%" %>">
-      <div id="video_title"><p><%= question.question_label %></p></div>
+      <div id="video_title" style="text-align:center"><p><%= question.question_label %></p></div>
         <div class="share_question_form_container">       
         <%= form_tag question_answers_path(question), :method => :post , :remote => true do |f| %>
-	<div>
+	<div style="text-align:center;width:70%;margin:20px 75px;">
             <%= text_field_tag "share_question_answer",""%>
             <span class="password_error error"></span>
         </div>
-        <div id="submit_actions" style="float:right">
+        <div id="submit_actions" style="margin-right:240px;">
               <% btn_name = (question.button_text.present?) ? question.button_text  : 'Continue' %>
               <%= submit_tag "#{btn_name}", class: 'btn save_interaction btn-primary btn-small'%>
 	</div>

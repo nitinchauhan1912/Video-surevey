@@ -5,11 +5,11 @@
 <div class="hover-actions-list-container">
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'open_question.png' %></span>
-      <%= link_to "Open Question",'javascript:void(0);',  id: 'open_question'%>
+      <%= link_to "Open Question",'javascript:void(0);',  id: 'open_question',class: "new_question"%>
   </div>
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'quizz.png' %></span>
-      <%= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question'%>
+      <%= link_to "Quiz", 'javascript:void(0);', id: 'quiz_question', class: "new_question"%>
   </div>
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'call-to-action.png' %></span>
@@ -18,7 +18,7 @@
   
   <div class="hover-actions-list">
     <span class="list-icon poll"><%= image_tag 'poll.png' %></span>
-      <%= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question'%>
+      <%= link_to "Poll" , 'javascript:void(0);',  id: 'poll_question', class: "new_question"%>
   </div>
   <div class="hover-actions-list">
     <span class="list-icon"><%= image_tag 'email.png' %></span>

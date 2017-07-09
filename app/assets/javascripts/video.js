@@ -4,6 +4,7 @@ var done = false;
 var player;
 var area = {width:800,height:450};
 var playerOption = {rel: 0, showinfo: 0, autoplay: 1, controls: 0, start: 0};
+var is_mouse_enter_interaction_item = false;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         width: area.width,
@@ -69,12 +70,19 @@ function updateProgressBar() {
 }
 
 function spotProgressBar(spotTime) {
-    //var seek_bar_postion = (spotTime / player.getDuration()) * 100
-    //var progressBarWidth = seek_bar_postion * $('#progressBar').width() / 100;
-    //player.playVideo();
-    //alert(spotTime);
+    var seek_bar_postion = (spotTime / player.getDuration()) * 100
+    var barPosition = seek_bar_postion * $('#progressBar').width() / 100;
     player.seekTo(spotTime);
     pauseVideo();
+    
+    barPosition = barPosition - 75;
+    if(barPosition <= 0){
+        barPosition = 0;
+    }else if(barPosition >= 620){
+        barPosition = 620;
+    }
+    $('.moveAble').css({'left': barPosition});
+           
     //$('#progessbarspot').animate({width: progressBarWidth});
 }
 
@@ -96,26 +104,31 @@ $('#progress-bar').on('mouseup touchend', function(e) {
 });
 
 $(document).ready(function(){
-    $('.progress-bar-interaction,.move_cursor').on('click', function(e) {
-        var $this = $('#progressBar');
-        var barPosition = parseInt(e.pageX - $this.offset().left);
-        var progressBarWidth = $this.width();
-        var videoInSecs = player.getDuration();
-        var percentOfVideo = barPosition / progressBarWidth;
-        var newTime = videoInSecs * percentOfVideo;
-        //alert(newTime);
-        //$('#progessbarspot').animate({width: newTime});
-        player.seekTo(newTime);
-        $(".hover_actions").show();
-            
-        if($('.hover_actions').is(":visible")) {
+    $('.new_question').on('click', function(e) {
+        var newTime = $('#time').text();
+        spotProgressBar(inseconds(newTime));
+        var interaction_item = $("#interaction_items");
+        if($(interaction_item).is(":visible")) {
             $(".right_video_overlay").show();
-            //pauseVideo();
         }
+    });
+    
+    $('.show_embed_bar').on('click', function(e) {
+            var $this = $('#progressBar');
+            var barPosition = parseInt(e.pageX - $this.offset().left);
+            if (barPosition < parseInt($this.width()) && barPosition >= 5) {
+                //var barSeekTime = player.getDuration() * (e.target.value / 100);  
+                var videoInSecs = player.getDuration();
+                var percentOfVideo = barPosition / $this.width();
+                var barSeekTime = videoInSecs * percentOfVideo;
+                player.seekTo(barSeekTime);
+            }
     });
     
     $('.progress-bar-interaction').mousemove(function(e) {
         if($("#progressBar").hasClass("progress-bar-interaction")){
+            //  $("#interaction_items").show();
+            is_mouse_enter_interaction_item = true;
             var $this = $('.progress-bar-interaction');
             var barPosition = parseInt(e.pageX - $this.offset().left);
             if (barPosition < parseInt($this.width()) && barPosition >= 5) {
@@ -129,12 +142,49 @@ $(document).ready(function(){
                 barPosition = barPosition - 142;
                 if(barPosition <= 0){
                     barPosition = 0;
+                }else if(barPosition >= 515){
+                    barPosition = 515;
                 }
                 $('.moveAble').css({'left': barPosition});
             }
         }
     });
+    /******************new code here*****************/
+    $( ".progress-bar-interaction" ).mouseleave(function(e) {
+        if($("#progressBar").hasClass("progress-bar-interaction")){
+            var interaction_item = $("#interaction_items");
+            if($(interaction_item).is(":visible")) {
+                $(interaction_item).mouseenter(function(){
+                    is_mouse_enter_interaction_item = true;
+                })
+            }
+         }
+    });
     
+    $("#interaction_items").mouseleave(function(){
+        is_mouse_enter_interaction_item = false;
+        $("#interaction_items").hide();
+        $(".move_cursor").hide();
+    });
+    
+    
+    $(".right_video").mousemove(function(){
+        var spot_interaction_item = $("#spot_interaction_items");
+        if(is_mouse_enter_interaction_item && !$(spot_interaction_item).is(":visible")){
+            $(".move_cursor").show();
+            $("#interaction_items").show();
+        }else{
+            $(".move_cursor").hide();
+            $("#interaction_items").hide();
+        }
+    });
+    
+    $(".right_video").mouseleave(function(){
+         $(".move_cursor").hide();
+         $("#interaction_items").hide();
+    });
+    
+    /*******************new code end here********************/
     $(".video_overlay_on").click(function(){
         //$(".right_video_overlay").attr('style','width:'+area.width+';height:'+area.height);
         $(".right_video_overlay").show();
