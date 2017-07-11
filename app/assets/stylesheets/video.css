@@ -137,10 +137,11 @@ background-color: #55a2f4;
 
 .hover-actions-list {
     border: 0px solid red;
-    margin: 15px 10px 5px;
+    margin-left: 10px;
     float: left;
-    width: 42%;
+    width: 45%;
     text-align: left;
+    line-height: 40px;
 }
 
 .hover-actions-list .list-icon img {
